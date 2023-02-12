@@ -3,7 +3,7 @@
         <header class="option__header">{{ headerTitle }}</header>
 
         <div class="option__content">
-            
+            <slot></slot>
         </div>
     </div>
 </template>
@@ -19,6 +19,7 @@ export default {
 <style lang="scss" scoped>
 .sb {
     &__option {
+        width: 100%;
         padding: 0 16px;
 
         &:not(:first-of-type) {
