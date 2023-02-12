@@ -1,20 +1,22 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <!-- header -->
+
+  <!-- container -->
+  <ContainerBox/>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import ContainerBox from './components/ContainerBox.vue'
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
+    ContainerBox
   }
 }
 </script>
 
-<style>
+<style >
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
