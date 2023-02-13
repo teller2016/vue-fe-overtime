@@ -29,6 +29,10 @@ export default {
     border: 1px solid $gray100;
     border-radius: 8px;
 
+    &:not(:first-of-type) {
+      margin-top: 8px;
+    }
+
     select {
       flex-grow: 1;
       border: none;

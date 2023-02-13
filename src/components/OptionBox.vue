@@ -20,15 +20,20 @@ export default {
 .sb {
     &__option {
         width: 100%;
-        padding: 0 16px;
+        padding: 16px;
 
         &:not(:first-of-type) {
             border-left: 1px solid black;
         }
         .option {
             &__header {
+                margin-bottom: 12px;
                 font-weight: 700;
                 font-size: 24px;
+                text-align: left;
+            }
+
+            &__content {
             }
         }
     }

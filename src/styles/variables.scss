@@ -2,3 +2,19 @@ $gray50: #f8f8f8;
 $gray100: #e8e8e8;
 $gray600: #999;
 $gray800: #666;
+
+$black: black;
+$red: red;
+
+$inputHeight: 40px;
+$inputPadding: 8px;
+
+%defaultInputStyle {
+
+}
+
+%icSvSelect {
+    &--disabled {
+        
+    }
+}

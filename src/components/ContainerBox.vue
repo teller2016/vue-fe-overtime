@@ -7,7 +7,7 @@
 
           <SelectElement selectTitle="년도" selectName="year">
             <option value="22">22</option>
-            <option value="23">23</option>
+            <option value="23" selected>23</option>
             <option value="24">24</option>
             <option value="25">25</option>
             <option value="26">26</option>
@@ -18,9 +18,15 @@
             <option value="18.5" selected="">9:30</option>
             <option value="19">10:00</option>
           </SelectElement>
+
+        </OptionBox>
+
+        <OptionBox headerTitle="일지 등록">
+          <p class="sb__options__guide">해당 월의 일지 excel파일을 불러와 주세요.</p>
+
+          <DragDrop/>
           
         </OptionBox>
-        <OptionBox headerTitle="일지 등록"></OptionBox>
         <OptionBox headerTitle="석식 등록"></OptionBox>
       </div>
     </div>
@@ -35,10 +41,12 @@
 <script>
 import SelectElement from './elements/SelectElement.vue';
 import OptionBox from './OptionBox.vue';
+import DragDrop from './DragDrop.vue';
 export default {
   components: {
     OptionBox,
     SelectElement,
+    DragDrop
   }
 }
 </script>
@@ -57,6 +65,12 @@ export default {
     display: flex;
     align-items: stretch;
     justify-content: center;
+
+    &__guide {
+      margin-bottom: 8px;
+      color: $red;
+      font-size: 13px;
+    }
   }
 }
 </style>
