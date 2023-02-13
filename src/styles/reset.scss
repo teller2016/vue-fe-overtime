@@ -1,0 +1,223 @@
+* {
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-font-smoothing: antialiased;
+    letter-spacing: -0.025em;
+    &:focus {
+        outline: none;
+    }
+}
+
+body {
+    word-break: break-all;
+    // font-family: $fontDefault;
+    font-weight: 400;
+    color: $black;
+}
+
+i,
+em,
+address {
+    font-style: normal;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+ul,
+ol,
+dl {
+    margin: 0;
+    padding: 0;
+    li,
+    dt,
+    dd {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+    }
+}
+
+h1,
+h2,
+h3,
+h4 {
+    margin: 0;
+    font-size: 14px;
+    font-weight: normal;
+}
+
+figure,
+p {
+    margin: 0;
+}
+b {
+    font-weight: 800;
+}
+mark {
+    background: inherit;
+}
+button {padding: 0;}
+button,
+input[type="button"] {
+    border: 0;
+    background: none;
+    cursor: pointer;
+    outline: 0;
+}
+
+input {
+    &::placeholder {
+        color: $gray600;
+        opacity: 1;
+    }
+
+    &:-ms-input-placeholder {
+        color: $gray600;
+    }
+    
+    &::-ms-input-placeholder {
+        color: $gray600;
+    }
+
+    &::-ms-clear {
+        display: none;
+    }
+
+    &:focus {
+        outline: none;
+    }
+
+    &:disabled,
+    &:read-only {
+        background-color: $gray50 !important;
+        border-color: $gray100 !important;
+        color: $gray800;
+    }
+
+    &[type="text"] {
+        height: $inputHeight;
+        padding: $inputPadding;
+        @extend %defaultInputStyle;
+        &:focus {
+            border-color: $black;
+        }
+    }
+
+    &[type="password"] {
+        height: $inputHeight;
+        padding: $inputPadding;
+        @extend %defaultInputStyle;
+        &:focus {
+            border-color: $black;
+        }
+    }
+
+    &[type="number"] {
+        height: $inputHeight;
+        padding: $inputPadding;
+        @extend %defaultInputStyle;
+        -moz-appearance: textfield;
+        &::-webkit-outer-spin-button,
+        &::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+        &:focus {
+            border-color: $black;
+        }
+    }
+
+}
+
+textarea {
+    padding: 15px;
+    resize: none;
+    @extend %defaultInputStyle;
+    &::placeholder {
+        color: $gray600;
+    }
+    &:focus {
+        outline: none;
+    }
+}
+
+select {
+    // -webkit-appearance: none;
+    // -moz-appearance: none;
+    // appearance: none;
+    min-width: 100px;
+    height: $inputHeight;
+    padding: 0 32px 0 15px;
+    cursor: pointer;
+    &::-ms-expand {
+        display: none;
+    }
+    &:focus {
+        border-color: $black;
+    }
+    &:disabled {
+        background-color: $gray50;
+        color: $gray800;
+        opacity: 1;
+    }
+}
+
+fieldset {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    min-width: 0;
+}
+
+legend {
+    display: block;
+    overflow: hidden;
+    position: absolute;
+    top: -1000em;
+    left: 0;
+    background-color: transparent;
+    border: 0;
+    color: transparent;
+    font: 0/0 a;
+    text-shadow: none;
+}
+
+//ie 때문에 추가
+details {
+    /* summary 기본css 제거 */
+    summary {
+        display: block;
+    }
+
+    summary + * {
+        display: none;
+    }
+
+    &[open] {
+        summary + * {
+            display: block;
+        }
+    }
+}
+
+table {
+    table-layout: fixed;
+    width: 100%;
+    padding: 0;
+    border-spacing: 0;
+    word-break: break-all;
+    
+    caption {
+        display: none;
+    }
+}
+
+th,
+td {
+    margin: 0;
+    padding: 0;
+    font-size: 14px;
+}
