@@ -26,7 +26,7 @@ export default {
     align-items: stretch;
     flex-wrap: nowrap;
     width: 100%;
-    border: 1px solid black;
+    border: 1px solid $gray100;
     border-radius: 8px;
 
     select {
@@ -39,8 +39,8 @@ export default {
       &__title {
         flex-grow: 0;
         padding: 8px 12px;
-        background: gray;
-        border-right: 1px solid black;
+        background: $gray50;
+        border-right: 1px solid $gray100;
       }
 
       &__element {
