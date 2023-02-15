@@ -1,7 +1,20 @@
 <template>
   <div class="sb__select">
     <span class="select__title">{{ selectTitle }}</span>
-    <select :name="selectName" id="" class="select__element">
+    <select
+      :name="selectName"
+      id=""
+      class="select__element"
+      @input="updateValue($event.target.value)"
+    >
+      <option
+        v-for="(item, index) in items"
+        :value="item.value"
+        :key="index"
+        :selected="item.selected"
+      >
+        {{ item.text }}
+      </option>
       <slot></slot>
     </select>
   </div>
@@ -12,10 +25,21 @@ export default {
   props: {
     selectTitle: String,
     selectName: String,
-  }
+    items: Array,
+  },
+  emits: ["update-value"],
+  setup(props, context) {
+    const updateValue = (value) => {
+      context.emit("update-value", value);
+    };
+
+    return {
+      updateValue,
+    };
+  },
 
   // TODO: 년도의 경우 option 생성
-}
+};
 </script>
 
 <style lang="scss" scoped>
@@ -49,7 +73,6 @@ export default {
 
       &__element {
       }
-
     }
   }
 }

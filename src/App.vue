@@ -1,23 +1,23 @@
 <template>
   <div @drop.prevent>
     <!-- header -->
-  
+
     <!-- container -->
-    <ContainerBox/>
+    <ContainerBox />
   </div>
 </template>
 
 <script>
-import { onMounted, onUnmounted } from 'vue';
-import ContainerBox from './components/ContainerBox.vue'
+import { onMounted, onUnmounted } from "vue";
+import ContainerBox from "./components/ContainerBox.vue";
 
 export default {
-  name: 'App',
+  name: "App",
   components: {
-    ContainerBox
+    ContainerBox,
   },
   setup() {
-    const onDrop = event => {
+    const onDrop = (event) => {
       event.preventDefault();
     };
 
@@ -34,11 +34,11 @@ export default {
       window.removeEventListener("dragleave", onDrop);
       window.removeEventListener("drop", onDrop);
     });
-  }
-}
+  },
+};
 </script>
 
-<style >
+<style>
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
