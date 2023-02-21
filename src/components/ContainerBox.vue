@@ -50,7 +50,30 @@
         <div class="sb__option">
           <header class="option__header">석식등록</header>
 
-          <div class="option__content"></div>
+          <div class="option__content">
+            <div class="sb__dinner">
+              <form class="dinner__form" @submit.prevent="addDinnerData">
+                <!-- 날짜 -->
+                <label class="dinner__date">
+                  <input type="date" />
+                </label>
+
+                <!-- 석식 텍스트 입력 -->
+                <label class="dinner__text">
+                  <input type="text" placeholder="ex. 석식대(마이쥬스)" />
+                </label>
+
+                <!-- 추가버튼 -->
+                <ButtonElement
+                  type="submit"
+                  class="dinner__button"
+                  size="m"
+                  line="black"
+                  >추가</ButtonElement
+                >
+              </form>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -65,11 +88,13 @@ import { ref, onMounted } from "vue";
 import SelectElement from "./elements/SelectElement.vue";
 import DragDrop from "./DragDrop.vue";
 import NotificationPopup from "./utils/NotificationPopup.vue";
+import ButtonElement from "./elements/ButtonElement.vue";
 export default {
   components: {
     SelectElement,
     DragDrop,
     NotificationPopup,
+    ButtonElement,
   },
   setup() {
     // 년도 데이터 목록
@@ -129,11 +154,17 @@ export default {
       console.log(value);
     };
 
+    // 석식 데이터 추가 버튼이벤트
+    const addDinnerData = () => {
+      console.log("석식추가");
+    };
+
     return {
       years,
       workStartTime,
       updateYearValue,
       updateWorkStartTimeValue,
+      addDinnerData,
     };
   },
 };
@@ -200,6 +231,32 @@ export default {
       img {
         max-width: 100%;
         height: auto;
+      }
+    }
+  }
+
+  &__dinner {
+    .dinner {
+      &__form {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+      }
+
+      &__date {
+        flex-shrink: 0;
+        width: 140px;
+        input {
+          width: 100%;
+        }
+      }
+
+      &__text {
+        flex: 1;
+      }
+
+      &__submit {
+        flex-shrink: 0;
       }
     }
   }

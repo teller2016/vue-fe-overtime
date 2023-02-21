@@ -131,6 +131,14 @@ input {
       border-color: $black;
     }
   }
+
+  &[type="date"] {
+    min-width: 100px;
+    height: $inputHeight;
+    padding: $inputPadding;
+    font-size: 16px;
+    border-radius: 8px;
+  }
 }
 
 textarea {

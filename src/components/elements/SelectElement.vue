@@ -37,8 +37,6 @@ export default {
       updateValue,
     };
   },
-
-  // TODO: 년도의 경우 option 생성
 };
 </script>
 
