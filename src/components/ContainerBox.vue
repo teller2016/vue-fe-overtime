@@ -26,7 +26,18 @@
         </div>
 
         <div class="sb__option">
-          <header class="option__header">일지등록</header>
+          <header class="option__header">
+            일지등록
+            <NotificationPopup>
+              <p class="sb__guide__text">
+                * 작성하려는 월의 일지를 <em>Excel 파일</em>로 받아서
+                등록해주세요.
+              </p>
+              <figure class="sb__guide__img">
+                <img src="../assets/images/excel_download_guide.png" alt="" />
+              </figure>
+            </NotificationPopup>
+          </header>
 
           <div class="option__content">
             <p class="sb__options__guide">
@@ -53,14 +64,17 @@
 import { ref, onMounted } from "vue";
 import SelectElement from "./elements/SelectElement.vue";
 import DragDrop from "./DragDrop.vue";
+import NotificationPopup from "./utils/NotificationPopup.vue";
 export default {
   components: {
     SelectElement,
     DragDrop,
+    NotificationPopup,
   },
   setup() {
+    // 년도 데이터 목록
     const years = ref([]);
-
+    // 출근시간 데이터 목록
     const workStartTime = [
       {
         text: "9",
@@ -105,10 +119,12 @@ export default {
       years.value = [...yearList];
     });
 
+    // 년도 선택시
     const updateYearValue = (value) => {
       console.log(value);
     };
 
+    // 출근시간 선택시
     const updateWorkStartTimeValue = (value) => {
       console.log(value);
     };
@@ -161,6 +177,29 @@ export default {
       }
 
       &__content {
+      }
+    }
+  }
+
+  &__guide {
+    &__text {
+      color: black;
+      font-weight: bold;
+      font-size: 16px;
+
+      em {
+        color: red;
+      }
+    }
+
+    &__img {
+      display: block;
+      width: 1500px;
+      margin-top: 8px;
+
+      img {
+        max-width: 100%;
+        height: auto;
       }
     }
   }
