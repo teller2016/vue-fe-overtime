@@ -50,7 +50,7 @@
 </template>
 
 <script>
-// import { ref } from "vue";
+import { ref, onMounted } from "vue";
 import SelectElement from "./elements/SelectElement.vue";
 import DragDrop from "./DragDrop.vue";
 export default {
@@ -59,23 +59,7 @@ export default {
     DragDrop,
   },
   setup() {
-    const years = [
-      {
-        text: "22",
-        value: 22,
-        selected: false,
-      },
-      {
-        text: "23",
-        value: 23,
-        selected: true,
-      },
-      {
-        text: "24",
-        value: 24,
-        selected: false,
-      },
-    ];
+    const years = ref([]);
 
     const workStartTime = [
       {
@@ -94,6 +78,32 @@ export default {
         selected: false,
       },
     ];
+
+    onMounted(() => {
+      const currentDate = new Date();
+
+      const year = currentDate.getFullYear();
+      const yearValue = year % 100;
+      const yearList = [];
+
+      yearList.push({
+        text: year - 1,
+        value: yearValue - 1,
+        selected: false,
+      });
+      yearList.push({
+        text: year,
+        value: yearValue,
+        selected: true,
+      });
+      yearList.push({
+        text: year + 1,
+        value: yearValue + 1,
+        selected: false,
+      });
+
+      years.value = [...yearList];
+    });
 
     const updateYearValue = (value) => {
       console.log(value);
