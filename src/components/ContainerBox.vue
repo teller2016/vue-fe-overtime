@@ -55,12 +55,16 @@
               <form class="dinner__form" @submit.prevent="addDinnerData">
                 <!-- 날짜 -->
                 <label class="dinner__date">
-                  <input type="date" />
+                  <input type="date" v-model="dinnerDate" />
                 </label>
 
                 <!-- 석식 텍스트 입력 -->
                 <label class="dinner__text">
-                  <input type="text" placeholder="ex. 석식대(마이쥬스)" />
+                  <input
+                    type="text"
+                    v-model="dinnerText"
+                    placeholder="ex. 석식대(마이쥬스)"
+                  />
                 </label>
 
                 <!-- 추가버튼 -->
@@ -84,7 +88,7 @@
 </template>
 
 <script>
-import { ref, onMounted } from "vue";
+import { ref, watchEffect, onMounted } from "vue";
 import SelectElement from "./elements/SelectElement.vue";
 import DragDrop from "./DragDrop.vue";
 import NotificationPopup from "./utils/NotificationPopup.vue";
@@ -117,6 +121,47 @@ export default {
         selected: false,
       },
     ];
+
+    // 석식 데이터
+    const dinnerData = ref({});
+    const dinnerDate = ref("");
+    const dinnerText = ref("");
+    const dinnerList = watchEffect(() => {
+      const unsortedData = [];
+
+      for (let data in dinnerData.value) {
+        unsortedData.push({
+          date: data,
+          text: dinnerData.value[data],
+        });
+      }
+
+      // 날짜순으로 정렬
+      const sortedData = unsortedData.sort((a, b) => {
+        return new Date(a.date) - new Date(b.date);
+      });
+
+      // 년,월,일 분리된 데이터
+      const dateDataList = sortedData.map((item) => {
+        const date = new Date(item.date);
+        const year = date.getFullYear();
+        const month = date.getMonth() + 1;
+        const day = date.getDate();
+
+        return {
+          date: item.date,
+          year,
+          month,
+          day,
+          text: item.text,
+        };
+      });
+
+      console.log(dateDataList);
+      const obj = {};
+
+      return obj;
+    });
 
     onMounted(() => {
       const currentDate = new Date();
@@ -156,7 +201,12 @@ export default {
 
     // 석식 데이터 추가 버튼이벤트
     const addDinnerData = () => {
-      console.log("석식추가");
+      if (!dinnerDate.value) {
+        alert("날짜를 선택해주세요.");
+        return;
+      }
+
+      dinnerData.value[dinnerDate.value] = dinnerText.value;
     };
 
     return {
@@ -165,6 +215,10 @@ export default {
       updateYearValue,
       updateWorkStartTimeValue,
       addDinnerData,
+      dinnerDate,
+      dinnerText,
+      dinnerData,
+      dinnerList,
     };
   },
 };
