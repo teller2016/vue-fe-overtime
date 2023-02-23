@@ -76,6 +76,30 @@
                   >추가</ButtonElement
                 >
               </form>
+
+              <div class="dinner__result" v-if="dinnerList.length">
+                <h3 class="dinner__result__title">석식 결과</h3>
+
+                <table class="dinner__result__table">
+                  <colgroup>
+                    <col width="100" />
+                    <col width="200" />
+                    <col width="160" />
+                  </colgroup>
+
+                  <tr
+                    class="dinner__result__row"
+                    v-for="(data, index) in dinnerList"
+                    :key="index"
+                  >
+                    <td>{{ index + 1 }}</td>
+                    <td>
+                      {{ `${data.year % 100}.${data.month}.${data.day}` }}
+                    </td>
+                    <td>{{ data.text }}</td>
+                  </tr>
+                </table>
+              </div>
             </div>
           </div>
         </div>
@@ -126,7 +150,9 @@ export default {
     const dinnerData = ref({});
     const dinnerDate = ref("");
     const dinnerText = ref("");
-    const dinnerList = watchEffect(() => {
+    const dinnerList = ref([]);
+
+    watchEffect(() => {
       const unsortedData = [];
 
       for (let data in dinnerData.value) {
@@ -158,9 +184,8 @@ export default {
       });
 
       console.log(dateDataList);
-      const obj = {};
 
-      return obj;
+      dinnerList.value = dateDataList;
     });
 
     onMounted(() => {
@@ -311,6 +336,32 @@ export default {
 
       &__submit {
         flex-shrink: 0;
+      }
+
+      &__result {
+        margin-top: 24px;
+
+        &__title {
+          font-weight: 600;
+          font-size: 24px;
+          padding-bottom: 12px;
+          border-bottom: 1px solid black;
+        }
+
+        &__table {
+          border-collapse: collapse;
+        }
+
+        &__row {
+          td {
+            padding: 4px;
+            font-size: 20px;
+          }
+
+          &:not(:first-of-type) {
+            border-top: 1px solid $gray100;
+          }
+        }
       }
     }
   }
