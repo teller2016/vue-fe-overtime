@@ -77,7 +77,7 @@
                 >
               </form>
 
-              <div class="dinner__result" v-if="dinnerList.length">
+              <div class="dinner__result">
                 <h3 class="dinner__result__title">석식 결과</h3>
 
                 <table class="dinner__result__table">
@@ -87,17 +87,25 @@
                     <col width="160" />
                   </colgroup>
 
-                  <tr
-                    class="dinner__result__row"
-                    v-for="(data, index) in dinnerList"
-                    :key="index"
-                  >
-                    <td>{{ index + 1 }}</td>
-                    <td>
-                      {{ `${data.year % 100}.${data.month}.${data.day}` }}
-                    </td>
-                    <td>{{ data.text }}</td>
-                  </tr>
+                  <template v-if="dinnerList.length">
+                    <tr
+                      class="dinner__result__row"
+                      v-for="(data, index) in dinnerList"
+                      :key="index"
+                    >
+                      <td>{{ index + 1 }}</td>
+                      <td>
+                        {{ `${data.year % 100}.${data.month}.${data.day}` }}
+                      </td>
+                      <td>{{ data.text }}</td>
+                    </tr>
+                  </template>
+
+                  <template v-else>
+                    <tr class="dinner__result__row">
+                      <td colspan="3">없음</td>
+                    </tr>
+                  </template>
                 </table>
               </div>
             </div>
@@ -107,7 +115,12 @@
     </div>
 
     <!-- HTML 영역 -->
-    <div class="container__box">결과</div>
+    <div class="container__box">
+      <h2>결과</h2>
+      <div>
+        <ResultTemplate />
+      </div>
+    </div>
   </div>
 </template>
 
@@ -117,12 +130,14 @@ import SelectElement from "./elements/SelectElement.vue";
 import DragDrop from "./DragDrop.vue";
 import NotificationPopup from "./utils/NotificationPopup.vue";
 import ButtonElement from "./elements/ButtonElement.vue";
+import ResultTemplate from "./ResultTemplate.vue";
 export default {
   components: {
     SelectElement,
     DragDrop,
     NotificationPopup,
     ButtonElement,
+    ResultTemplate,
   },
   setup() {
     // 년도 데이터 목록
