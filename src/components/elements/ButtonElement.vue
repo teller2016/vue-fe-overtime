@@ -7,6 +7,7 @@
       size === 'lg' ? 'btn-lg' : '',
       line === 'black' ? 'btn-black-line' : '',
       line === 'orange' ? 'btn-orange-line' : '',
+      line === 'red' ? 'btn-red-line' : '',
     ]"
     @click="onClick"
   >
@@ -67,6 +68,14 @@ export default {
       border-color: orange;
       &:hover {
         background: rgba(255, 166, 0, 0.1);
+      }
+    }
+
+    &.btn-red-line {
+      color: rgb(255, 0, 0);
+      border-color: rgb(255, 0, 0);
+      &:hover {
+        background: rgba(255, 0, 0, 0.1);
       }
     }
   }

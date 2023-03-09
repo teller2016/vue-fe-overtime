@@ -31,7 +31,6 @@ export default {
     const workResultData = ref([]);
 
     const filterExcelData = (data) => {
-      console.log(data);
       const dayTimeWorkData = {
         // 일: {
         //   totalDate: '22.08.01',
@@ -92,7 +91,6 @@ export default {
         };
       }
 
-      console.log(dayTimeWorkData);
       return dayTimeWorkData;
     };
 
@@ -108,6 +106,8 @@ export default {
           const row = XLSX.utils.sheet_to_json(workBook.Sheets[sheetName]);
           workResultData.value = filterExcelData(row);
         });
+
+        console.log(workResultData.value);
       };
 
       reader.readAsBinaryString(fileValue);

@@ -82,9 +82,10 @@
 
                 <table class="dinner__result__table">
                   <colgroup>
-                    <col width="100" />
+                    <col width="30" />
                     <col width="200" />
                     <col width="160" />
+                    <col width="70" />
                   </colgroup>
 
                   <template v-if="dinnerList.length">
@@ -95,9 +96,20 @@
                     >
                       <td>{{ index + 1 }}</td>
                       <td>
-                        {{ `${data.year % 100}.${data.month}.${data.day}` }}
+                        {{ data.date }}
                       </td>
                       <td>{{ data.text }}</td>
+                      <td>
+                        <ButtonElement
+                          type="button"
+                          class="dinner__delete"
+                          size="s"
+                          line="red"
+                          @on-click="deleteDinnerData(data.date)"
+                        >
+                          삭제
+                        </ButtonElement>
+                      </td>
                     </tr>
                   </template>
 
@@ -172,8 +184,8 @@ export default {
 
       for (let data in dinnerData.value) {
         unsortedData.push({
-          date: data,
-          text: dinnerData.value[data],
+          date: dinnerData.value[data].fullDate,
+          text: dinnerData.value[data].dinnerText,
         });
       }
 
@@ -246,7 +258,16 @@ export default {
         return;
       }
 
-      dinnerData.value[dinnerDate.value] = dinnerText.value;
+      // dinnerData.value[dinnerDate.value] = dinnerText.value;
+      dinnerData.value[dinnerDate.value] = {
+        fullDate: dinnerDate.value,
+        dinnerText: dinnerText.value,
+      };
+    };
+
+    const deleteDinnerData = (date) => {
+      console.log(date);
+      delete dinnerData.value[date];
     };
 
     return {
@@ -255,6 +276,7 @@ export default {
       updateYearValue,
       updateWorkStartTimeValue,
       addDinnerData,
+      deleteDinnerData,
       dinnerDate,
       dinnerText,
       dinnerData,
