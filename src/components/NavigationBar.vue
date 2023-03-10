@@ -4,12 +4,20 @@
 
     <ul class="nav__list">
       <li class="nav__item">
-        <router-link class="nav__link" :to="{ name: 'Week' }">
+        <router-link
+          class="nav__link"
+          active-class="active"
+          :to="{ name: 'Week' }"
+        >
           주간보고 작성
         </router-link>
       </li>
       <li class="nav__item">
-        <router-link class="nav__link" :to="{ name: 'OT' }">
+        <router-link
+          class="nav__link"
+          active-class="active"
+          :to="{ name: 'OT' }"
+        >
           OT 작성
         </router-link>
       </li>
@@ -49,10 +57,18 @@ export default {};
       }
 
       &__link {
-        font-size: 16px;
+        color: $pFont;
+        font-weight: 400;
+        font-size: 18px;
         cursor: pointer;
         &:hover {
           text-decoration: underline;
+        }
+
+        &.active {
+          text-decoration: underline;
+          color: $pFont;
+          font-weight: 700;
         }
       }
     }
