@@ -47,7 +47,7 @@
 </template>
 
 <script>
-import { ref } from "vue";
+import { ref, watch } from "vue";
 import SelectElement from "@/components/elements/SelectElement.vue";
 import DragDrop from "@/components/DragDrop.vue";
 import NotificationPopup from "@/components/utils/NotificationPopup.vue";
@@ -80,17 +80,24 @@ export default {
     ];
 
     const workEndTime = ref(workStartTimeList[1].value);
-    const data = ref({});
+    const excelData = ref("");
+    const result = ref("");
 
     const getExcelData = (data) => {
-      data.value = filterWeekExcelData(data, workEndTime.value);
+      excelData.value = data;
+      result.value = filterWeekExcelData(data, workEndTime.value);
     };
+
+    watch(workEndTime, () => {
+      if (!excelData.value) return;
+      result.value = filterWeekExcelData(excelData.value, workEndTime.value);
+    });
 
     return {
       workStartTimeList,
       workEndTime,
       getExcelData,
-      data,
+      result,
     };
   },
 };
