@@ -151,6 +151,7 @@ import DragDrop from "@/components/DragDrop.vue";
 import NotificationPopup from "@/components/utils/NotificationPopup.vue";
 import ButtonElement from "@/components/elements/ButtonElement.vue";
 import ResultTemplate from "@/components/ResultTemplate.vue";
+import filterOvertimeExcelData from "@/composables/filterOvertimeExcel";
 export default {
   components: {
     SelectElement,
@@ -193,7 +194,7 @@ export default {
     // 년도
     const workYear = ref("");
     // 출근시간
-    const workStartTime = ref("");
+    const workStartTime = ref(workStartTimeList[1].value);
 
     watchEffect(() => {
       const unsortedData = [];
@@ -226,8 +227,6 @@ export default {
         };
       });
 
-      console.log(dateDataList);
-
       dinnerList.value = dateDataList;
     });
 
@@ -258,7 +257,6 @@ export default {
 
       // setting default value
       workYear.value = yearValue;
-      workStartTime.value = 18.5;
     });
 
     // 석식 데이터 추가 버튼이벤트
@@ -282,8 +280,8 @@ export default {
 
     // 엑셀데이터 get
     const getExcelData = (data) => {
-      console.log(data);
-      workList.value = data;
+      workList.value = filterOvertimeExcelData(data);
+      console.log(workList.value);
     };
 
     return {

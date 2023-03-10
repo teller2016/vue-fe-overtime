@@ -47,7 +47,7 @@
 </template>
 
 <script>
-// import { ref, watchEffect, onMounted } from "vue";
+import { ref } from "vue";
 import SelectElement from "@/components/elements/SelectElement.vue";
 import DragDrop from "@/components/DragDrop.vue";
 import NotificationPopup from "@/components/utils/NotificationPopup.vue";
@@ -77,6 +77,8 @@ export default {
         selected: false,
       },
     ];
+
+    const workStartTime = ref(workStartTimeList[1].value);
 
     return {
       workStartTimeList,
