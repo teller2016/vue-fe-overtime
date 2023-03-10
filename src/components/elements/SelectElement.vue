@@ -27,7 +27,7 @@ export default {
     selectName: String,
     items: Array,
   },
-  emits: ["update-value"],
+  emits: ["update:modelValue"],
   setup(props, context) {
     const updateValue = (value) => {
       context.emit("update:modelValue", value);

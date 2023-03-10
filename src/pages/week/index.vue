@@ -11,7 +11,7 @@
               selectTitle="출근시간"
               selectName="start-tiem"
               :items="workStartTimeList"
-              v-model="workStartTime"
+              v-model="workEndTime"
             >
             </SelectElement>
           </div>
@@ -51,6 +51,7 @@ import { ref } from "vue";
 import SelectElement from "@/components/elements/SelectElement.vue";
 import DragDrop from "@/components/DragDrop.vue";
 import NotificationPopup from "@/components/utils/NotificationPopup.vue";
+import filterWeekExcelData from "@/composables/filterWeekExcel";
 
 export default {
   components: {
@@ -78,10 +79,18 @@ export default {
       },
     ];
 
-    const workStartTime = ref(workStartTimeList[1].value);
+    const workEndTime = ref(workStartTimeList[1].value);
+    const data = ref({});
+
+    const getExcelData = (data) => {
+      data.value = filterWeekExcelData(data, workEndTime.value);
+    };
 
     return {
       workStartTimeList,
+      workEndTime,
+      getExcelData,
+      data,
     };
   },
 };
