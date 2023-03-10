@@ -1,20 +1,19 @@
 <template>
   <div @drop.prevent>
     <!-- header -->
-
-    <!-- container -->
-    <ContainerBox />
+    <NavigationBar />
+    <router-view />
   </div>
 </template>
 
 <script>
 import { onMounted, onUnmounted } from "vue";
-import ContainerBox from "./components/ContainerBox.vue";
+import NavigationBar from "./components/NavigationBar.vue";
 
 export default {
   name: "App",
   components: {
-    ContainerBox,
+    NavigationBar,
   },
   setup() {
     const onDrop = (event) => {
@@ -45,6 +44,6 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
+  margin-top: 20px;
 }
 </style>
