@@ -5,6 +5,7 @@
       size === 's' ? 'btn-s' : '',
       size === 'm' ? 'btn-m' : '',
       size === 'lg' ? 'btn-lg' : '',
+      size === 'xlg' ? 'btn-xlg' : '',
       line === 'black' ? 'btn-black-line' : '',
       line === 'orange' ? 'btn-orange-line' : '',
       line === 'red' ? 'btn-red-line' : '',
@@ -55,6 +56,11 @@ export default {
       height: 45px;
       font-weight: bold;
       font-size: 16px;
+    }
+    &.btn-xlg {
+      height: 48px;
+      font-weight: bold;
+      font-size: 20px;
     }
 
     &.btn-black-line {

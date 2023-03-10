@@ -24,7 +24,7 @@
 import { ref } from "vue";
 import * as XLSX from "xlsx";
 export default {
-  setup() {
+  setup(props, context) {
     const dragDropActive = ref(false);
     const file = ref("");
     const labelText = ref("드래그하거나 클릭해서 업로드");
@@ -107,7 +107,7 @@ export default {
           workResultData.value = filterExcelData(row);
         });
 
-        console.log(workResultData.value);
+        context.emit("get-excel-data", workResultData.value);
       };
 
       reader.readAsBinaryString(fileValue);

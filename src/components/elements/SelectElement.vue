@@ -30,7 +30,7 @@ export default {
   emits: ["update-value"],
   setup(props, context) {
     const updateValue = (value) => {
-      context.emit("update-value", value);
+      context.emit("update:modelValue", value);
     };
 
     return {

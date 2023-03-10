@@ -11,15 +11,15 @@
               selectTitle="년도"
               selectName="year"
               :items="years"
-              @update-value="updateYearValue"
+              v-model="workYear"
             >
             </SelectElement>
 
             <SelectElement
               selectTitle="출근시간"
               selectName="start-tiem"
-              :items="workStartTime"
-              @update-value="updateWorkStartTimeValue"
+              :items="workStartTimeList"
+              v-model="workStartTime"
             >
             </SelectElement>
           </div>
@@ -43,7 +43,7 @@
             <p class="sb__options__guide">
               해당 월의 일지 excel파일을 불러와 주세요.
             </p>
-            <DragDrop />
+            <DragDrop @get-excel-data="getExcelData" />
           </div>
         </div>
 
@@ -115,7 +115,7 @@
 
                   <template v-else>
                     <tr class="dinner__result__row">
-                      <td colspan="3">없음</td>
+                      <td colspan="4">없음</td>
                     </tr>
                   </template>
                 </table>
@@ -127,10 +127,15 @@
     </div>
 
     <!-- HTML 영역 -->
-    <div class="container__box">
-      <h2>결과</h2>
-      <div>
-        <ResultTemplate />
+    <div class="container__box sb__result">
+      <h2 class="result__header">결과</h2>
+      <div class="result__btn">
+        <ButtonElement type="button" size="xlg" line="black"
+          >결과조회</ButtonElement
+        >
+      </div>
+      <div class="result__html">
+        <ResultTemplate v-if="Object.keys(workList).length" />
       </div>
     </div>
   </div>
@@ -155,7 +160,7 @@ export default {
     // 년도 데이터 목록
     const years = ref([]);
     // 출근시간 데이터 목록
-    const workStartTime = [
+    const workStartTimeList = [
       {
         text: "9",
         value: 18,
@@ -177,7 +182,15 @@ export default {
     const dinnerData = ref({});
     const dinnerDate = ref("");
     const dinnerText = ref("");
+
+    // 일 데이터
+    const workList = ref({});
+    // 석식
     const dinnerList = ref([]);
+    // 년도
+    const workYear = ref("");
+    // 출근시간
+    const workStartTime = ref("");
 
     watchEffect(() => {
       const unsortedData = [];
@@ -239,17 +252,11 @@ export default {
       });
 
       years.value = [...yearList];
+
+      // setting default value
+      workYear.value = yearValue;
+      workStartTime.value = 18.5;
     });
-
-    // 년도 선택시
-    const updateYearValue = (value) => {
-      console.log(value);
-    };
-
-    // 출근시간 선택시
-    const updateWorkStartTimeValue = (value) => {
-      console.log(value);
-    };
 
     // 석식 데이터 추가 버튼이벤트
     const addDinnerData = () => {
@@ -270,17 +277,25 @@ export default {
       delete dinnerData.value[date];
     };
 
+    // 엑셀데이터 get
+    const getExcelData = (data) => {
+      console.log(data);
+      workList.value = data;
+    };
+
     return {
       years,
-      workStartTime,
-      updateYearValue,
-      updateWorkStartTimeValue,
+      workStartTimeList,
       addDinnerData,
       deleteDinnerData,
       dinnerDate,
       dinnerText,
       dinnerData,
       dinnerList,
+      getExcelData,
+      workList,
+      workYear,
+      workStartTime,
     };
   },
 };
@@ -399,6 +414,27 @@ export default {
             border-top: 1px solid $gray100;
           }
         }
+      }
+    }
+  }
+
+  &__result {
+    padding: 20px;
+    .result {
+      &__header {
+        margin-bottom: 12px;
+        font-weight: 700;
+        font-size: 36px;
+      }
+
+      &__btn {
+        text-align: center;
+        button {
+          width: 200px;
+        }
+      }
+
+      &__html {
       }
     }
   }
