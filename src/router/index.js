@@ -6,11 +6,15 @@ import OT from "../pages/ot/index.vue";
 const router = createRouter({
   history: createWebHistory(),
   routes: [
+    // {
+    //   path: "/", //url
+    //   name: "Home",
+    //   component: Home,
+    // },
     {
-      path: "/", //url
-      name: "Home",
-      component: Home,
-    }, // 객체 하나가 하나의 route를 의미
+      path: "/",
+      redirect: "/week",
+    },
     {
       path: "/week", //url
       name: "Week",
