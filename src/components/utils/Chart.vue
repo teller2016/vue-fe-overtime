@@ -1,5 +1,10 @@
 <template>
-  <Bar :data="chartData" :options="chartOptions" />
+  <template v-if="type == 'bar'">
+    <Bar :data="chartData" :options="chartOptions" />
+  </template>
+  <template v-else-if="type == 'round'">
+    <Doughnut :data="chartData" :options="chartOptions" />
+  </template>
 </template>
 
 <script>
@@ -11,23 +16,27 @@ import {
   BarElement,
   CategoryScale,
   LinearScale,
+  ArcElement,
 } from "chart.js";
-import { Bar } from "vue-chartjs";
+import { Bar, Doughnut } from "vue-chartjs";
 ChartJS.register(
   Title,
   Tooltip,
   Legend,
   BarElement,
   CategoryScale,
-  LinearScale
+  LinearScale,
+  ArcElement
 );
 export default {
   components: {
     Bar,
+    Doughnut,
   },
   props: {
     chartData: Object,
     chartOptions: Object,
+    type: String,
   },
   setup() {
     return {};

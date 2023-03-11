@@ -44,15 +44,24 @@
       </div>
     </div>
 
-    <div class="sb__chart" v-if="Object.keys(chartData).length">
-      <BarChart :data="chartData" :options="chartOptions" />
+    <div class="sb__result">
+      <div class="result__chart" v-if="Object.keys(barChartData).length">
+        <Chart :data="barChartData" :options="barChartOptions" type="bar" />
+      </div>
+      <div class="result__chart" v-if="Object.keys(roundChartData).length">
+        <Chart
+          :data="roundChartData"
+          :options="roundChartOptions"
+          type="round"
+        />
+      </div>
     </div>
   </div>
 </template>
 
 <script>
 import { ref, watch } from "vue";
-import BarChart from "@/components/utils/BarChart.vue";
+import Chart from "@/components/utils/Chart.vue";
 import SelectElement from "@/components/elements/SelectElement.vue";
 import DragDrop from "@/components/DragDrop.vue";
 import NotificationPopup from "@/components/utils/NotificationPopup.vue";
@@ -63,7 +72,7 @@ export default {
     SelectElement,
     DragDrop,
     NotificationPopup,
-    BarChart,
+    Chart,
   },
   setup() {
     // 출근시간 데이터 목록
@@ -88,9 +97,8 @@ export default {
     const workEndTime = ref(workStartTimeList[1].value);
     const excelData = ref("");
 
-    const chartData = ref({});
-
-    const chartOptions = ref({
+    const barChartData = ref({});
+    const barChartOptions = ref({
       responsive: true,
       scales: {
         y: {
@@ -99,22 +107,63 @@ export default {
       },
     });
 
+    const roundChartData = ref({
+      labels: ["score", ""],
+      datasets: [
+        {
+          data: [60, 40],
+          backgroundColor: ["#ff0058", "#ff645a"],
+        },
+      ],
+    });
+    const roundChartOptions = ref({
+      legend: { display: false }, // datasets의 labels를 선언함으로 생기는 legend를 비표시로
+      cutoutPercentage: 85, // 차트의 굵기
+      elements: {
+        arc: {
+          roundedCornersFor: 0,
+        },
+        center: [
+          {
+            text: "60",
+            font: "bolder 4rem sans-serif",
+            fillStyle: "#354abd",
+          },
+          {
+            text: "Point",
+            font: "bold 0.8rem sans-serif",
+            fillStyle: "#222222",
+          },
+          {
+            text: "asdf",
+            font: "bold 1rem sans-serif",
+            fillStyle: "#222222",
+          },
+        ],
+      },
+    });
+
     const getExcelData = (data) => {
       excelData.value = data;
-      chartData.value = filterWeekExcelData(data, workEndTime.value);
+      barChartData.value = filterWeekExcelData(data, workEndTime.value);
     };
 
     watch(workEndTime, () => {
       if (!excelData.value) return;
-      chartData.value = filterWeekExcelData(excelData.value, workEndTime.value);
+      barChartData.value = filterWeekExcelData(
+        excelData.value,
+        workEndTime.value
+      );
     });
 
     return {
       workStartTimeList,
       workEndTime,
       getExcelData,
-      chartData,
-      chartOptions,
+      barChartData,
+      barChartOptions,
+      roundChartData,
+      roundChartOptions,
     };
   },
 };
@@ -127,10 +176,14 @@ export default {
     margin: 0 auto;
   }
 
-  &__chart {
-    display: block;
-    margin-top: 8px;
-    height: 350px;
+  &__result {
+    .result {
+      &__chart {
+        display: block;
+        margin-top: 8px;
+        height: 350px;
+      }
+    }
   }
 }
 </style>
