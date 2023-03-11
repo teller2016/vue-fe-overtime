@@ -45,10 +45,16 @@
     </div>
 
     <div class="sb__result">
-      <div class="result__chart" v-if="Object.keys(barChartData).length">
+      <div
+        class="result__chart result__chart--bar"
+        v-if="Object.keys(barChartData).length"
+      >
         <Chart :data="barChartData" :options="barChartOptions" type="bar" />
       </div>
-      <div class="result__chart" v-if="Object.keys(roundChartData).length">
+      <div
+        class="result__chart result__chart--round"
+        v-if="Object.keys(roundChartData).length"
+      >
         <Chart
           :data="roundChartData"
           :options="roundChartOptions"
@@ -66,6 +72,10 @@ import SelectElement from "@/components/elements/SelectElement.vue";
 import DragDrop from "@/components/DragDrop.vue";
 import NotificationPopup from "@/components/utils/NotificationPopup.vue";
 import filterWeekExcelData from "@/composables/filterWeekExcel";
+import {
+  convertToBarChartData,
+  convertToRoundChartData,
+} from "@/composables/convertToChartData";
 
 export default {
   components: {
@@ -96,6 +106,7 @@ export default {
 
     const workEndTime = ref(workStartTimeList[1].value);
     const excelData = ref("");
+    const filteredExcelData = ref("");
 
     const barChartData = ref({});
     const barChartOptions = ref({
@@ -105,55 +116,53 @@ export default {
           stacked: true,
         },
       },
+      plugins: {
+        title: {
+          display: true,
+          text: "요일별 T/OT",
+          font: {
+            size: 20,
+          },
+          padding: {
+            bottom: 5,
+          },
+        },
+      },
     });
 
-    const roundChartData = ref({
-      labels: ["score", ""],
-      datasets: [
-        {
-          data: [60, 40],
-          backgroundColor: ["#ff0058", "#ff645a"],
-        },
-      ],
-    });
+    const roundChartData = ref({});
     const roundChartOptions = ref({
-      legend: { display: false }, // datasets의 labels를 선언함으로 생기는 legend를 비표시로
       cutoutPercentage: 85, // 차트의 굵기
-      elements: {
-        arc: {
-          roundedCornersFor: 0,
+      plugins: {
+        title: {
+          display: true,
+          text: "전체 T/OT 합",
+          font: {
+            size: 20,
+          },
+          padding: {
+            bottom: 5,
+          },
         },
-        center: [
-          {
-            text: "60",
-            font: "bolder 4rem sans-serif",
-            fillStyle: "#354abd",
-          },
-          {
-            text: "Point",
-            font: "bold 0.8rem sans-serif",
-            fillStyle: "#222222",
-          },
-          {
-            text: "asdf",
-            font: "bold 1rem sans-serif",
-            fillStyle: "#222222",
-          },
-        ],
       },
     });
 
     const getExcelData = (data) => {
       excelData.value = data;
-      barChartData.value = filterWeekExcelData(data, workEndTime.value);
+
+      filteredExcelData.value = filterWeekExcelData(data, workEndTime.value);
+      barChartData.value = convertToBarChartData(filteredExcelData.value);
+      roundChartData.value = convertToRoundChartData(filteredExcelData.value);
     };
 
     watch(workEndTime, () => {
       if (!excelData.value) return;
-      barChartData.value = filterWeekExcelData(
+      filteredExcelData.value = filterWeekExcelData(
         excelData.value,
         workEndTime.value
       );
+      barChartData.value = convertToBarChartData(filteredExcelData.value);
+      roundChartData.value = convertToRoundChartData(filteredExcelData.value);
     });
 
     return {
@@ -177,11 +186,23 @@ export default {
   }
 
   &__result {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+
     .result {
       &__chart {
-        display: block;
+        display: inline-block;
+        flex-shrink: 0;
         margin-top: 8px;
         height: 350px;
+
+        &--bar {
+          width: 700px;
+        }
+      }
+
+      &__summary {
       }
     }
   }

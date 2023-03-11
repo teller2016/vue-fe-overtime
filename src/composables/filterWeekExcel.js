@@ -46,7 +46,8 @@ class Project {
 
   // 요일 배열 return
   getLabel() {
-    return Object.keys(this.T);
+    const sortedT = this.sortByKey(this.T);
+    return Object.keys(sortedT);
   }
 }
 
@@ -99,53 +100,7 @@ const filterWeekExcelData = (data, quitTime) => {
   }
 
   console.log(result);
-  console.log(convertToChartData(result, daySet));
-  return convertToChartData(result, daySet);
-};
-
-const convertToChartData = (data, daySet) => {
-  const labels = Array.from(daySet);
-  const datasets = [];
-
-  Object.values(data).forEach((project, index) => {
-    if (project.getSum("T")) {
-      datasets.push({
-        label: `${project.getProjectName()} T`,
-        data: project.getT(),
-        stack: "T",
-        backgroundColor: getColor(index, 0),
-      });
-    }
-
-    if (project.getSum("OT")) {
-      datasets.push({
-        label: `${project.getProjectName()} OT`,
-        data: project.getOT(),
-        stack: "OT",
-        backgroundColor: getColor(index, 1),
-      });
-    }
-  });
-
-  return {
-    labels,
-    datasets,
-  };
-};
-
-const getColor = (index = 0, type = 0) => {
-  const color = [
-    ["#ED5565", "#DA4453"],
-    ["#FFCE54", "#F6BB42"],
-    ["#48CFAD", "#37BC9B"],
-    ["#5D9CEC", "#4A89DC"],
-    ["#EC87C0", "#D770AD"],
-    ["#FC6E51", "#E9573F"],
-    ["#A0D468", "#8CC152"],
-    ["#4FC1E9", "#3BAFDA"],
-    ["#AC92EC", "#967ADC"],
-  ];
-  return color[index % color.length][type % 2];
+  return result;
 };
 
 // 시간 정보 유효성 검사
