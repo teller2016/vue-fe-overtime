@@ -69,4 +69,21 @@ const getColor = (index = 0, type = 0) => {
   return color[index % color.length][type % 2];
 };
 
-export { convertToBarChartData, convertToRoundChartData };
+const getSummaryData = (data) => {
+  const summary = [];
+  Object.values(data).forEach((project) => {
+    summary.push({
+      name: project.getProjectName(),
+      T: project.getSum("T"),
+      OT: project.getSum("OT"),
+    });
+  });
+
+  summary.sort((a, b) => {
+    return Number(b.T) - Number(a.T);
+  });
+
+  return summary;
+};
+
+export { convertToBarChartData, convertToRoundChartData, getSummaryData };

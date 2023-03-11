@@ -61,6 +61,19 @@
           type="round"
         />
       </div>
+
+      <div class="result__summary" v-if="Object.keys(summaryData).length">
+        <h3 class="summary__header">요약</h3>
+
+        <template v-for="(item, index) in summaryData" :key="index">
+          <dl class="summary__list">
+            <dt class="summary__name">[{{ item.name }}]</dt>
+            <dd class="summary__data" v-if="item.T != 0">T: {{ item.T }}</dd>
+            <dd class="summary__data" v-if="item.OT != 0">OT: {{ item.OT }}</dd>
+          </dl>
+          <br />
+        </template>
+      </div>
     </div>
   </div>
 </template>
@@ -75,6 +88,7 @@ import filterWeekExcelData from "@/composables/filterWeekExcel";
 import {
   convertToBarChartData,
   convertToRoundChartData,
+  getSummaryData,
 } from "@/composables/convertToChartData";
 
 export default {
@@ -147,12 +161,15 @@ export default {
       },
     });
 
+    const summaryData = ref({});
+
     const getExcelData = (data) => {
       excelData.value = data;
 
       filteredExcelData.value = filterWeekExcelData(data, workEndTime.value);
       barChartData.value = convertToBarChartData(filteredExcelData.value);
       roundChartData.value = convertToRoundChartData(filteredExcelData.value);
+      summaryData.value = getSummaryData(filteredExcelData.value);
     };
 
     watch(workEndTime, () => {
@@ -163,6 +180,7 @@ export default {
       );
       barChartData.value = convertToBarChartData(filteredExcelData.value);
       roundChartData.value = convertToRoundChartData(filteredExcelData.value);
+      summaryData.value = getSummaryData(filteredExcelData.value);
     });
 
     return {
@@ -173,6 +191,7 @@ export default {
       barChartOptions,
       roundChartData,
       roundChartOptions,
+      summaryData,
     };
   },
 };
@@ -189,6 +208,7 @@ export default {
     display: flex;
     justify-content: space-between;
     gap: 12px;
+    margin-top: 8px;
 
     .result {
       &__chart {
@@ -203,6 +223,35 @@ export default {
       }
 
       &__summary {
+        width: 200px;
+        border: 1px solid $pRed;
+        background: $pPurple;
+        border-radius: 8px;
+        padding: 8px;
+        .summary {
+          &__header {
+            margin-bottom: 5px;
+            font-weight: 700;
+            font-size: 20px;
+          }
+
+          &__list {
+            text-align: left;
+
+            &:not(:first-of-type) {
+              margin-top: 8px;
+            }
+          }
+
+          &__name {
+            font-weight: 700;
+            font-size: 18px;
+          }
+
+          &__data {
+            font-size: 18px;
+          }
+        }
       }
     }
   }
