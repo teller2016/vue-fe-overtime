@@ -43,11 +43,16 @@
         </div>
       </div>
     </div>
+
+    <div class="sb__chart">
+      <BarChart />
+    </div>
   </div>
 </template>
 
 <script>
 import { ref, watch } from "vue";
+import BarChart from "@/components/utils/BarChart.vue";
 import SelectElement from "@/components/elements/SelectElement.vue";
 import DragDrop from "@/components/DragDrop.vue";
 import NotificationPopup from "@/components/utils/NotificationPopup.vue";
@@ -58,6 +63,7 @@ export default {
     SelectElement,
     DragDrop,
     NotificationPopup,
+    BarChart,
   },
   setup() {
     // 출근시간 데이터 목록
@@ -108,6 +114,12 @@ export default {
   &__container {
     max-width: 1280px;
     margin: 0 auto;
+  }
+
+  &__chart {
+    display: block;
+    margin: 0 auto;
+    height: 350px;
   }
 }
 </style>

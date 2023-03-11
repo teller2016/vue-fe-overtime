@@ -18,9 +18,11 @@ const filterWeekExcelData = (data, quitTime) => {
   console.log(data);
 
   const result = {};
+  const daySet = new Set();
 
   data.forEach((item) => {
     const day = item["일자"];
+    daySet.add(day);
     const timeRange = item["시간"];
     const scheduleDetail = item["일정명"];
 
@@ -52,7 +54,16 @@ const filterWeekExcelData = (data, quitTime) => {
     const project = result[projectName];
     project.addData(day, T, OT);
   });
+
+  // 요일에 대한 데이터 없는경우 0 넣어주기 위해 처리
+  for (let day of daySet) {
+    Object.values(result).forEach((projectInstance) => {
+      projectInstance.addData(day, 0, 0);
+    });
+  }
+
   console.log(result);
+  return result;
 };
 
 // 시간 정보 유효성 검사
