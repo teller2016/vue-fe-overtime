@@ -44,8 +44,8 @@
       </div>
     </div>
 
-    <div class="sb__chart">
-      <BarChart />
+    <div class="sb__chart" v-if="Object.keys(chartData).length">
+      <BarChart :data="chartData" :options="chartOptions" />
     </div>
   </div>
 </template>
@@ -87,23 +87,34 @@ export default {
 
     const workEndTime = ref(workStartTimeList[1].value);
     const excelData = ref("");
-    const result = ref("");
+
+    const chartData = ref({});
+
+    const chartOptions = ref({
+      responsive: true,
+      scales: {
+        y: {
+          stacked: true,
+        },
+      },
+    });
 
     const getExcelData = (data) => {
       excelData.value = data;
-      result.value = filterWeekExcelData(data, workEndTime.value);
+      chartData.value = filterWeekExcelData(data, workEndTime.value);
     };
 
     watch(workEndTime, () => {
       if (!excelData.value) return;
-      result.value = filterWeekExcelData(excelData.value, workEndTime.value);
+      chartData.value = filterWeekExcelData(excelData.value, workEndTime.value);
     });
 
     return {
       workStartTimeList,
       workEndTime,
       getExcelData,
-      result,
+      chartData,
+      chartOptions,
     };
   },
 };
@@ -118,7 +129,7 @@ export default {
 
   &__chart {
     display: block;
-    margin: 0 auto;
+    margin-top: 8px;
     height: 350px;
   }
 }

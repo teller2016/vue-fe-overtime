@@ -13,7 +13,6 @@ import {
   LinearScale,
 } from "chart.js";
 import { Bar } from "vue-chartjs";
-import { ref } from "@vue/reactivity";
 ChartJS.register(
   Title,
   Tooltip,
@@ -26,37 +25,12 @@ export default {
   components: {
     Bar,
   },
+  props: {
+    chartData: Object,
+    chartOptions: Object,
+  },
   setup() {
-    const chartData = ref({
-      labels: ["월", "화", "수", "목", "금"],
-      datasets: [
-        {
-          label: "스마일게이트",
-          data: [5, 6, 7],
-          backgroundColor: "#f87979",
-          stack: "T",
-        },
-        {
-          label: "푸드케어",
-          data: [1, 2, 3],
-          stack: "T",
-        },
-        {
-          label: "스마일게이트",
-          data: [1, 0, 0],
-          stack: "OT",
-        },
-      ],
-    });
-
-    const chartOptions = ref({
-      responsive: true,
-    });
-
-    return {
-      chartData,
-      chartOptions,
-    };
+    return {};
   },
 };
 </script>
