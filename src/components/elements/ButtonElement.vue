@@ -2,6 +2,7 @@
   <button
     class="sb__button"
     :class="[
+      size === 'xxs' ? 'btn-xxs' : '',
       size === 's' ? 'btn-s' : '',
       size === 'm' ? 'btn-m' : '',
       size === 'lg' ? 'btn-lg' : '',
@@ -43,6 +44,11 @@ export default {
     border-radius: 4px;
     white-space: nowrap;
 
+    &.btn-xxs {
+      padding: 0 4px;
+      height: 20px;
+      font-size: 12px;
+    }
     &.btn-s {
       height: 28px;
       font-size: 12px;

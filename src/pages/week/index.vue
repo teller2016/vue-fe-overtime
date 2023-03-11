@@ -63,16 +63,30 @@
       </div>
 
       <div class="result__summary" v-if="Object.keys(summaryData).length">
-        <h3 class="summary__header">요약</h3>
+        <h3 class="summary__header">
+          요약
+          <ButtonElement
+            type="button"
+            class="summary__copy"
+            size="xxs"
+            line="black"
+            @on-click="onCopyText"
+            >복사</ButtonElement
+          >
+        </h3>
 
-        <template v-for="(item, index) in summaryData" :key="index">
-          <dl class="summary__list">
-            <dt class="summary__name">[{{ item.name }}]</dt>
-            <dd class="summary__data" v-if="item.T != 0">T: {{ item.T }}</dd>
-            <dd class="summary__data" v-if="item.OT != 0">OT: {{ item.OT }}</dd>
-          </dl>
-          <br />
-        </template>
+        <div class="summary__content" ref="summaryText">
+          <template v-for="(item, index) in summaryData" :key="index">
+            <dl class="summary__list">
+              <dt class="summary__name">[{{ item.name }}]</dt>
+              <dd class="summary__data" v-if="item.T != 0">T: {{ item.T }}</dd>
+              <dd class="summary__data" v-if="item.OT != 0">
+                OT: {{ item.OT }}
+              </dd>
+            </dl>
+            <br />
+          </template>
+        </div>
       </div>
     </div>
   </div>
@@ -82,6 +96,7 @@
 import { ref, watch } from "vue";
 import Chart from "@/components/utils/Chart.vue";
 import SelectElement from "@/components/elements/SelectElement.vue";
+import ButtonElement from "@/components/elements/ButtonElement.vue";
 import DragDrop from "@/components/DragDrop.vue";
 import NotificationPopup from "@/components/utils/NotificationPopup.vue";
 import filterWeekExcelData from "@/composables/filterWeekExcel";
@@ -90,6 +105,7 @@ import {
   convertToRoundChartData,
   getSummaryData,
 } from "@/composables/convertToChartData";
+import { copyText } from "@/composables/copyText";
 
 export default {
   components: {
@@ -97,6 +113,7 @@ export default {
     DragDrop,
     NotificationPopup,
     Chart,
+    ButtonElement,
   },
   setup() {
     // 출근시간 데이터 목록
@@ -162,6 +179,7 @@ export default {
     });
 
     const summaryData = ref({});
+    const summaryText = ref(null);
 
     const getExcelData = (data) => {
       excelData.value = data;
@@ -183,6 +201,19 @@ export default {
       summaryData.value = getSummaryData(filteredExcelData.value);
     });
 
+    const onCopyText = () => {
+      let textContent = summaryText.value.textContent.trim();
+
+      let count = 0;
+      textContent = textContent.replace(/\[/g, (match) => {
+        count++;
+        return count === 1 ? match : "\n\n[";
+      });
+      textContent = textContent.replaceAll("]T", "]\nT");
+      textContent = textContent.replaceAll(" OT", "\nOT");
+      copyText(textContent);
+    };
+
     return {
       workStartTimeList,
       workEndTime,
@@ -192,6 +223,8 @@ export default {
       roundChartData,
       roundChartOptions,
       summaryData,
+      onCopyText,
+      summaryText,
     };
   },
 };
@@ -230,6 +263,7 @@ export default {
         padding: 8px;
         .summary {
           &__header {
+            position: relative;
             margin-bottom: 5px;
             font-weight: 700;
             font-size: 20px;
@@ -250,6 +284,12 @@ export default {
 
           &__data {
             font-size: 18px;
+          }
+
+          &__copy {
+            position: absolute;
+            right: 12px;
+            top: 4px;
           }
         }
       }
