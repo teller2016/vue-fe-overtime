@@ -63,9 +63,9 @@ const filterWeekExcelData = (data, quitTime) => {
     const timeRange = item["시간"];
     const scheduleDetail = item["일정명"];
 
-    const timeRangeList = timeRange.split(" ~ ");
-    const timeRangeStart = timeRangeList[0];
-    const timeRangeEnd = timeRangeList[1];
+    // const timeRangeList = timeRange.split(" ~ ");
+    const timeRangeStart = timeRange.trim().slice(0, 5);
+    const timeRangeEnd = timeRange.trim().slice(-5);
 
     if (
       !validateEndTimeData(timeRangeStart) ||
