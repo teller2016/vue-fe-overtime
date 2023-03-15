@@ -60,29 +60,48 @@
       </div>
 
       <div class="result__summary" v-if="Object.keys(summaryData).length">
-        <h3 class="summary__header">
-          요약
-          <ButtonElement
-            type="button"
-            class="summary__copy"
-            size="xxs"
-            line="black"
-            @on-click="onCopyText"
-            >복사</ButtonElement
-          >
-        </h3>
+        <div class="summary__box">
+          <h3 class="summary__header">
+            요약
+            <ButtonElement
+              type="button"
+              class="summary__copy"
+              size="xxs"
+              line="black"
+              @on-click="onCopyText"
+              >복사</ButtonElement
+            >
+          </h3>
 
-        <div class="summary__content" ref="summaryText">
-          <template v-for="(item, index) in summaryData" :key="index">
+          <div class="summary__content" ref="summaryText">
+            <template v-for="(item, index) in summaryData" :key="index">
+              <dl class="summary__list">
+                <dt class="summary__name">[{{ item.name }}]</dt>
+                <dd class="summary__data" v-if="item.T != 0">
+                  T: {{ item.T }}
+                </dd>
+                <dd class="summary__data" v-if="item.OT != 0">
+                  OT: {{ item.OT }}
+                </dd>
+              </dl>
+              <br />
+            </template>
+          </div>
+        </div>
+
+        <div class="summary__box">
+          <h3 class="summary__header">총합</h3>
+
+          <div class="summary__content" ref="summaryText">
             <dl class="summary__list">
-              <dt class="summary__name">[{{ item.name }}]</dt>
-              <dd class="summary__data" v-if="item.T != 0">T: {{ item.T }}</dd>
-              <dd class="summary__data" v-if="item.OT != 0">
-                OT: {{ item.OT }}
+              <dd class="summary__error" v-if="summaryTotalData.T != 40">
+                *T 전체 합이 40시간이 아닙니다!<br />(연차,휴일 혹은 데이터 확인
+                필요)
               </dd>
+              <dd class="summary__data">T: {{ summaryTotalData.T }}</dd>
+              <dd class="summary__data">OT: {{ summaryTotalData.OT }}</dd>
             </dl>
-            <br />
-          </template>
+          </div>
         </div>
       </div>
     </div>
@@ -101,6 +120,7 @@ import {
   convertToBarChartData,
   convertToRoundChartData,
   getSummaryData,
+  getSummaryTotalData,
 } from "@/composables/convertToChartData";
 import { copyText } from "@/composables/copyText";
 
@@ -178,6 +198,8 @@ export default {
     const summaryData = ref({});
     const summaryText = ref(null);
 
+    const summaryTotalData = ref({});
+
     const getExcelData = (data) => {
       excelData.value = data;
 
@@ -185,6 +207,7 @@ export default {
       barChartData.value = convertToBarChartData(filteredExcelData.value);
       roundChartData.value = convertToRoundChartData(filteredExcelData.value);
       summaryData.value = getSummaryData(filteredExcelData.value);
+      summaryTotalData.value = getSummaryTotalData(filteredExcelData.value);
     };
 
     watch(workEndTime, () => {
@@ -196,6 +219,7 @@ export default {
       barChartData.value = convertToBarChartData(filteredExcelData.value);
       roundChartData.value = convertToRoundChartData(filteredExcelData.value);
       summaryData.value = getSummaryData(filteredExcelData.value);
+      summaryTotalData.value = getSummaryTotalData(filteredExcelData.value);
     });
 
     const onCopyText = () => {
@@ -222,6 +246,7 @@ export default {
       summaryData,
       onCopyText,
       summaryText,
+      summaryTotalData,
     };
   },
 };
@@ -254,11 +279,18 @@ export default {
 
       &__summary {
         width: 200px;
-        border: 1px solid $pRed;
-        background: $pPurple;
-        border-radius: 8px;
-        padding: 8px;
         .summary {
+          &__box {
+            border: 1px solid $pRed;
+            background: $pPurple;
+            border-radius: 8px;
+            padding: 8px;
+
+            &:not(:first-of-type) {
+              margin-top: 8px;
+            }
+          }
+
           &__header {
             position: relative;
             margin-bottom: 5px;
@@ -277,6 +309,12 @@ export default {
           &__name {
             font-weight: 700;
             font-size: 18px;
+          }
+
+          &__error {
+            color: $red;
+            font-size: 12px;
+            margin-bottom: 6px;
           }
 
           &__data {

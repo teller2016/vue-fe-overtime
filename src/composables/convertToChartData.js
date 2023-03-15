@@ -86,4 +86,23 @@ const getSummaryData = (data) => {
   return summary;
 };
 
-export { convertToBarChartData, convertToRoundChartData, getSummaryData };
+const getSummaryTotalData = (data) => {
+  let totalT = 0;
+  let totalOT = 0;
+  Object.values(data).forEach((project) => {
+    totalT += project.getSum("T");
+    totalOT += project.getSum("OT");
+  });
+
+  return {
+    T: totalT,
+    OT: totalOT,
+  };
+};
+
+export {
+  convertToBarChartData,
+  convertToRoundChartData,
+  getSummaryData,
+  getSummaryTotalData,
+};
