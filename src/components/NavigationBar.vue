@@ -34,7 +34,8 @@ export default {};
   &__nav {
     display: flex;
     align-items: center;
-    margin-bottom: 24px;
+    max-width: 1920px;
+    margin: 0 auto 24px;
     padding: 8px;
     background: $pGreen;
     border-radius: 16px;

@@ -101,12 +101,9 @@ export default {
 
     &__img {
       display: block;
-      width: 1500px;
       margin-top: 8px;
 
       img {
-        max-width: 100%;
-        height: auto;
       }
     }
   }

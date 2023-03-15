@@ -304,6 +304,11 @@ export default {
 
 <style lang="scss" scoped>
 .sb {
+  &__container {
+    max-width: 1920px;
+    margin: 0 auto;
+  }
+
   &__dinner {
     .dinner {
       &__form {

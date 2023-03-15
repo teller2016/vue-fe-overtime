@@ -72,6 +72,7 @@ export default {
         border: 1px solid #ddd;
         border-radius: 16px;
         font-size: 0;
+        white-space: nowrap;
       }
     }
   }

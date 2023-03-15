@@ -26,10 +26,7 @@
                 등록해주세요.
               </p>
               <figure class="sb__guide__img">
-                <img
-                  src="../../assets/images/excel_download_guide.png"
-                  alt=""
-                />
+                <img src="../../assets/images/weekGuide.png" alt="" />
               </figure>
             </NotificationPopup>
           </header>
@@ -233,7 +230,7 @@ export default {
 <style lang="scss" scoped>
 .sb {
   &__container {
-    max-width: 1280px;
+    width: 1280px;
     margin: 0 auto;
   }
 
