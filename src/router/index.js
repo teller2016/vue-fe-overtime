@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from "vue-router";
 import Home from "../pages/index.vue";
 import Week from "../pages/week/index.vue";
+import WeekAll from "../pages/weekAll/index.vue";
 import OT from "../pages/ot/index.vue";
 
 const router = createRouter({
@@ -19,6 +20,11 @@ const router = createRouter({
       path: "/week", //url
       name: "Week",
       component: Week,
+    },
+    {
+      path: "/weekAll", //url
+      name: "WeekAll",
+      component: WeekAll,
     },
     {
       path: "/ot",
