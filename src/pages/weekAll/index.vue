@@ -4,20 +4,6 @@
     <div class="container__box">
       <div class="sb__options">
         <div class="sb__option">
-          <header class="option__header">시간설정</header>
-
-          <div class="option__content">
-            <SelectElement
-              selectTitle="출근시간"
-              selectName="start-tiem"
-              :items="workStartTimeList"
-              v-model="workEndTime"
-            >
-            </SelectElement>
-          </div>
-        </div>
-
-        <div class="sb__option">
           <header class="option__header">
             일지등록
             <NotificationPopup>
@@ -36,6 +22,25 @@
               해당 주의 일지 excel파일을 불러와 주세요.
             </p>
             <DragDrop @get-excel-data="getExcelData" />
+          </div>
+        </div>
+
+        <div class="sb__option">
+          <header class="option__header">출근시간 설정</header>
+
+          <div class="option__content">
+            <dl class="sb__time" v-for="name in nameList" :key="name">
+              <dt class="time__title">{{ name }}</dt>
+              <dd class="time__data">
+                <SelectElement
+                  selectTitle="출근시간"
+                  selectName="start-tiem"
+                  :items="workStartTimeList"
+                  v-model="workEndTimeByName[name]"
+                >
+                </SelectElement>
+              </dd>
+            </dl>
           </div>
         </div>
       </div>
@@ -180,11 +185,13 @@ export default {
         selected: false,
       },
     ];
-
-    const workEndTime = ref(workStartTimeList[1].value);
+    // 불러온 엑셀데이터
     const excelData = ref("");
 
-    const barChartData = ref({});
+    // 이름별 퇴근시간 (이름: 퇴근시간)
+    const workEndTimeByName = ref({});
+
+    // 바차트 옵션
     const barChartOptions = ref({
       responsive: true,
       scales: {
@@ -206,7 +213,7 @@ export default {
       },
     });
 
-    const roundChartData = ref({});
+    // 도넛차트 옵션
     const roundChartOptions = ref({
       cutoutPercentage: 85, // 차트의 굵기
       plugins: {
@@ -223,13 +230,8 @@ export default {
       },
     });
 
-    const summaryData = ref({});
-    const summaryText = ref(null);
-
-    const summaryTotalData = ref({});
-
     // 이름 리스트
-    const nameList = ref("");
+    const nameList = ref([]);
     // {이름: 데이터}
     const nameKeyData = ref({});
 
@@ -242,7 +244,7 @@ export default {
       for (const [key, name] of Object.entries(nameList.value)) {
         const filteredExcelData = filterWeekAllExcel(
           data,
-          workEndTime.value,
+          workStartTimeList[1].value, //초기 필터링은 9:30 기준
           name
         );
         const barChartData = convertToBarChartData(filteredExcelData);
@@ -261,17 +263,46 @@ export default {
       console.log(nameKeyData.value);
     };
 
-    watch(workEndTime, () => {
-      // if (!excelData.value) return;
-      // filteredExcelData.value = filterWeekAllExcel(
-      //   excelData.value,
-      //   workEndTime.value
-      // );
-      // barChartData.value = convertToBarChartData(filteredExcelData.value);
-      // roundChartData.value = convertToRoundChartData(filteredExcelData.value);
-      // summaryData.value = getSummaryData(filteredExcelData.value);
-      // summaryTotalData.value = getSummaryTotalData(filteredExcelData.value);
+    watch(nameList, () => {
+      const workEndTimeObj = {};
+
+      nameList.value.forEach((name) => {
+        workEndTimeObj[name] = workStartTimeList[1].value;
+      });
+
+      workEndTimeByName.value = workEndTimeObj;
     });
+    watch(
+      workEndTimeByName,
+      () => {
+        if (!excelData.value) return;
+
+        nameKeyData.value = {};
+
+        for (const [key, name] of Object.entries(nameList.value)) {
+          const filteredExcelData = filterWeekAllExcel(
+            excelData.value,
+            workEndTimeByName.value[name],
+            name
+          );
+          const barChartData = convertToBarChartData(filteredExcelData);
+          const roundChartData = convertToRoundChartData(filteredExcelData);
+          const summaryData = getSummaryData(filteredExcelData);
+          const summaryTotalData = getSummaryTotalData(filteredExcelData);
+
+          nameKeyData.value[name] = {
+            filteredExcelData,
+            barChartData,
+            roundChartData,
+            summaryData,
+            summaryTotalData,
+          };
+        }
+
+        console.log(nameKeyData.value);
+      },
+      { deep: true }
+    );
 
     const onCopyText = () => {
       let textContent = summaryText.value.textContent.trim();
@@ -287,17 +318,13 @@ export default {
     };
 
     return {
+      nameList,
+      workEndTimeByName,
       workStartTimeList,
-      workEndTime,
       getExcelData,
-      barChartData,
       barChartOptions,
-      roundChartData,
       roundChartOptions,
-      summaryData,
       onCopyText,
-      summaryText,
-      summaryTotalData,
       nameKeyData,
     };
   },
@@ -309,6 +336,26 @@ export default {
   &__container {
     width: 1280px;
     margin: 0 auto;
+  }
+
+  &__time {
+    display: flex;
+    align-items: center;
+    &:not(:first-of-type) {
+      margin-top: 12px;
+    }
+    .time {
+      &__title {
+        width: 100px;
+        flex-shrink: 0;
+        font-size: 20px;
+      }
+
+      &__data {
+        width: 100%;
+        font-size: 0;
+      }
+    }
   }
 
   &__result {

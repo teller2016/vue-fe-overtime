@@ -1,6 +1,4 @@
 const getNameList = (data) => {
-  console.log(data);
-
   const nameSet = new Set();
 
   data.forEach((item) => {
@@ -9,7 +7,6 @@ const getNameList = (data) => {
   });
 
   const result = Array.from(nameSet);
-  console.log(Array.from(nameSet));
   return result;
 };
 

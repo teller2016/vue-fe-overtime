@@ -67,6 +67,7 @@ export default {
         padding: 8px 12px;
         background: $gray50;
         border-right: 1px solid $gray100;
+        font-size: 16px;
       }
 
       &__element {
