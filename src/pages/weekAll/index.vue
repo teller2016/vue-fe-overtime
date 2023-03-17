@@ -89,7 +89,7 @@
                   class="summary__copy"
                   size="xxs"
                   line="black"
-                  @on-click="onCopyText"
+                  @on-click="onCopyText(index)"
                   >복사</ButtonElement
                 >
               </h3>
@@ -234,6 +234,8 @@ export default {
     const nameList = ref([]);
     // {이름: 데이터}
     const nameKeyData = ref({});
+    // 요약 텍스트 영역
+    const summaryText = ref(null);
 
     const getExcelData = (data) => {
       excelData.value = data;
@@ -304,8 +306,9 @@ export default {
       { deep: true }
     );
 
-    const onCopyText = () => {
-      let textContent = summaryText.value.textContent.trim();
+    const onCopyText = (index) => {
+      console.log(summaryText.value);
+      let textContent = summaryText.value[index].textContent.trim();
 
       let count = 0;
       textContent = textContent.replace(/\[/g, (match) => {
@@ -326,6 +329,7 @@ export default {
       roundChartOptions,
       onCopyText,
       nameKeyData,
+      summaryText,
     };
   },
 };
