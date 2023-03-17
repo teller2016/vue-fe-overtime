@@ -92,7 +92,7 @@
         <div class="summary__box">
           <h3 class="summary__header">총합</h3>
 
-          <div class="summary__content" ref="summaryText">
+          <div class="summary__content">
             <dl class="summary__list">
               <dd class="summary__error" v-if="summaryTotalData.T != 40">
                 *T 전체 합이 40시간이 아닙니다!<br />(연차,휴일 혹은 데이터 확인
