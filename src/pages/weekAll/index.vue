@@ -30,7 +30,20 @@
 
           <div class="option__content">
             <dl class="sb__time" v-for="name in nameList" :key="name">
-              <dt class="time__title">{{ name }}</dt>
+              <!-- 보이기/숨기기 처리 -->
+
+              <dt class="time__title">
+                <label>
+                  <input
+                    type="checkbox"
+                    checked
+                    v-model="displayResult[name]"
+                  />
+                  <span>
+                    {{ name }}
+                  </span>
+                </label>
+              </dt>
               <dd class="time__data">
                 <SelectElement
                   selectTitle="출근시간"
@@ -51,6 +64,7 @@
         class="result__item"
         v-for="(nameData, name, index) in nameKeyData"
         :key="name"
+        v-show="displayResult[name]"
       >
         <h3 class="result__name">{{ name }}</h3>
         <div class="result__content">
@@ -237,6 +251,10 @@ export default {
     // 요약 텍스트 영역
     const summaryText = ref(null);
 
+    // 보이기 숨기기 처리
+    const displayResult = ref({});
+
+    // 엑셀 데이터 불러오기
     const getExcelData = (data) => {
       excelData.value = data;
 
@@ -265,15 +283,21 @@ export default {
       console.log(nameKeyData.value);
     };
 
+    // 이름 리스트 Watch
     watch(nameList, () => {
       const workEndTimeObj = {};
+      const displayResultObj = {};
 
       nameList.value.forEach((name) => {
         workEndTimeObj[name] = workStartTimeList[1].value;
+        displayResultObj[name] = true;
       });
 
       workEndTimeByName.value = workEndTimeObj;
+      displayResult.value = displayResultObj;
     });
+
+    // 이름별 출근시간 Watch
     watch(
       workEndTimeByName,
       () => {
@@ -306,6 +330,7 @@ export default {
       { deep: true }
     );
 
+    // 복사버튼 기능
     const onCopyText = (index) => {
       console.log(summaryText.value);
       let textContent = summaryText.value[index].textContent.trim();
@@ -330,6 +355,7 @@ export default {
       onCopyText,
       nameKeyData,
       summaryText,
+      displayResult,
     };
   },
 };
@@ -353,6 +379,10 @@ export default {
         width: 100px;
         flex-shrink: 0;
         font-size: 20px;
+        cursor: pointer;
+        label {
+          cursor: pointer;
+        }
       }
 
       &__data {
