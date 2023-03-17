@@ -41,70 +41,98 @@
       </div>
     </div>
 
-    <div class="sb__result">
-      <div
-        class="result__chart result__chart--bar"
-        v-if="Object.keys(barChartData).length"
+    <ul class="sb__result">
+      <li
+        class="result__item"
+        v-for="(nameData, name, index) in nameKeyData"
+        :key="name"
       >
-        <Chart :data="barChartData" :options="barChartOptions" type="bar" />
-      </div>
-      <div
-        class="result__chart result__chart--round"
-        v-if="Object.keys(roundChartData).length"
-      >
-        <Chart
-          :data="roundChartData"
-          :options="roundChartOptions"
-          type="round"
-        />
-      </div>
+        <h3 class="result__name">{{ name }}</h3>
+        <div class="result__content">
+          <!-- 바 차트 -->
+          <div
+            class="result__chart result__chart--bar"
+            v-if="Object.keys(nameData.barChartData).length"
+          >
+            <Chart
+              :data="nameData.barChartData"
+              :options="barChartOptions"
+              type="bar"
+            />
+          </div>
+          <!-- 도넛 차트 -->
+          <div
+            class="result__chart result__chart--round"
+            v-if="Object.keys(nameData.roundChartData).length"
+          >
+            <Chart
+              :data="nameData.roundChartData"
+              :options="roundChartOptions"
+              type="round"
+            />
+          </div>
+          <!-- 요약 -->
+          <div
+            class="result__summary"
+            v-if="Object.keys(nameData.summaryData).length"
+          >
+            <div class="summary__box">
+              <h3 class="summary__header">
+                요약
+                <ButtonElement
+                  type="button"
+                  class="summary__copy"
+                  size="xxs"
+                  line="black"
+                  @on-click="onCopyText"
+                  >복사</ButtonElement
+                >
+              </h3>
 
-      <div class="result__summary" v-if="Object.keys(summaryData).length">
-        <div class="summary__box">
-          <h3 class="summary__header">
-            요약
-            <ButtonElement
-              type="button"
-              class="summary__copy"
-              size="xxs"
-              line="black"
-              @on-click="onCopyText"
-              >복사</ButtonElement
-            >
-          </h3>
+              <div class="summary__content" ref="summaryText">
+                <template
+                  v-for="(item, index) in nameData.summaryData"
+                  :key="index"
+                >
+                  <dl class="summary__list">
+                    <dt class="summary__name">[{{ item.name }}]</dt>
+                    <dd class="summary__data" v-if="item.T != 0">
+                      T: {{ item.T }}
+                    </dd>
+                    <dd class="summary__data" v-if="item.OT != 0">
+                      OT: {{ item.OT }}
+                    </dd>
+                  </dl>
+                  <br />
+                </template>
+              </div>
+            </div>
 
-          <div class="summary__content" ref="summaryText">
-            <template v-for="(item, index) in summaryData" :key="index">
-              <dl class="summary__list">
-                <dt class="summary__name">[{{ item.name }}]</dt>
-                <dd class="summary__data" v-if="item.T != 0">
-                  T: {{ item.T }}
-                </dd>
-                <dd class="summary__data" v-if="item.OT != 0">
-                  OT: {{ item.OT }}
-                </dd>
-              </dl>
-              <br />
-            </template>
+            <div class="summary__box">
+              <h3 class="summary__header">총합</h3>
+
+              <div class="summary__content">
+                <dl class="summary__list">
+                  <dd
+                    class="summary__error"
+                    v-if="nameData.summaryTotalData.T != 40"
+                  >
+                    *T 전체 합이 40시간이 아닙니다!<br />(연차,휴일 혹은 데이터
+                    확인 필요)
+                  </dd>
+                  <dd class="summary__data">
+                    T: {{ nameData.summaryTotalData.T }}
+                  </dd>
+                  <dd class="summary__data">
+                    OT: {{ nameData.summaryTotalData.OT }}
+                  </dd>
+                </dl>
+              </div>
+            </div>
           </div>
         </div>
-
-        <div class="summary__box">
-          <h3 class="summary__header">총합</h3>
-
-          <div class="summary__content">
-            <dl class="summary__list">
-              <dd class="summary__error" v-if="summaryTotalData.T != 40">
-                *T 전체 합이 40시간이 아닙니다!<br />(연차,휴일 혹은 데이터 확인
-                필요)
-              </dd>
-              <dd class="summary__data">T: {{ summaryTotalData.T }}</dd>
-              <dd class="summary__data">OT: {{ summaryTotalData.OT }}</dd>
-            </dl>
-          </div>
-        </div>
-      </div>
-    </div>
+      </li>
+    </ul>
   </div>
 </template>
 
@@ -270,6 +298,7 @@ export default {
       onCopyText,
       summaryText,
       summaryTotalData,
+      nameKeyData,
     };
   },
 };
@@ -283,12 +312,32 @@ export default {
   }
 
   &__result {
-    display: flex;
-    justify-content: space-between;
-    gap: 12px;
-    margin-top: 8px;
+    margin-top: 20px;
 
     .result {
+      &__item {
+        border: 3px solid $pGreen;
+        border-radius: 8px;
+        &:not(:first-of-type) {
+          margin-top: 40px;
+        }
+      }
+
+      &__name {
+        display: block;
+        margin-bottom: 8px;
+        padding: 8px;
+        border-bottom: 3px solid $pGreen;
+        font-weight: 700;
+        font-size: 30px;
+      }
+
+      &__content {
+        display: flex;
+        justify-content: space-between;
+        gap: 12px;
+      }
+
       &__chart {
         display: inline-block;
         flex-shrink: 0;
