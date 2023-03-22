@@ -16,6 +16,15 @@
         <router-link
           class="nav__link"
           active-class="active"
+          :to="{ name: 'WeekAll' }"
+        >
+          주간전체보고 작성
+        </router-link>
+      </li>
+      <li class="nav__item">
+        <router-link
+          class="nav__link"
+          active-class="active"
           :to="{ name: 'OT' }"
         >
           OT 작성
