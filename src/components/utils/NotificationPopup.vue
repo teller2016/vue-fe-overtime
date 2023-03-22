@@ -53,10 +53,10 @@ export default {
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        width: 23px;
-        height: 23px;
-        border: 2px solid orange;
-        color: orange;
+        width: 30px;
+        height: 30px;
+        border: 3px solid red;
+        color: red;
         font-size: 20px;
         border-radius: 50%;
         transition: all 0.5s ease;

@@ -8,18 +8,19 @@
             일지등록
             <NotificationPopup>
               <p class="sb__guide__text">
-                * 작성하려는 주의 일지를 <em>Excel 파일</em>로 받아서
-                등록해주세요.
+                * 작성하려는 주의 일지를 <em>[개인별 주간] => [엑셀]</em>로
+                받아서 등록해주세요.
               </p>
               <figure class="sb__guide__img">
-                <img src="../../assets/images/weekGuide.png" alt="" />
+                <img src="../../assets/images/weekAllGuide.png" alt="" />
               </figure>
             </NotificationPopup>
           </header>
 
           <div class="option__content">
             <p class="sb__options__guide">
-              해당 주의 일지 excel파일을 불러와 주세요.
+              <em>[개인별 주간] => [엑셀]</em> 순으로 Excel파일을 받아, 불러와
+              주세요.
             </p>
             <DragDrop @get-excel-data="getExcelData" />
           </div>
@@ -380,6 +381,9 @@ export default {
         flex-shrink: 0;
         font-size: 20px;
         cursor: pointer;
+        &:hover {
+          text-decoration: underline;
+        }
         label {
           cursor: pointer;
         }

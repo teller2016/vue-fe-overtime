@@ -22,7 +22,8 @@
             일지등록
             <NotificationPopup>
               <p class="sb__guide__text">
-                * 작성하려는 주의 일지를 <em>Excel 파일</em>로 받아서
+                * 작성하려는 주의 일지를
+                <em>[개인별 주간] => [내 일정만 보기] => [엑셀]</em>로 받아서
                 등록해주세요.
               </p>
               <figure class="sb__guide__img">
@@ -33,7 +34,8 @@
 
           <div class="option__content">
             <p class="sb__options__guide">
-              해당 주의 일지 excel파일을 불러와 주세요.
+              <em>[개인별 주간] => [내 일정만 보기] => [엑셀]</em> 순으로
+              Excel파일을 받아, 불러와 주세요.
             </p>
             <DragDrop @get-excel-data="getExcelData" />
           </div>

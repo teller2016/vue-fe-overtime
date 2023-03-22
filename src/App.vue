@@ -48,6 +48,8 @@ export default {
 }
 
 .sb {
+  overflow: overlay;
+
   &__container {
     .container {
       &__box {
@@ -63,8 +65,13 @@ export default {
 
     &__guide {
       margin-bottom: 8px;
-      color: $red;
+      color: black;
       font-size: 13px;
+
+      em {
+        font-weight: 700;
+        color: $red;
+      }
     }
   }
 
