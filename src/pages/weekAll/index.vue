@@ -60,6 +60,27 @@
       </div>
     </div>
 
+    <table v-if="Object.keys(nameKeyData).length">
+      <thead>
+        <tr>
+          <th></th>
+          <th v-for="project in projectList" :key="project">{{ project }}</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr
+          v-for="(nameData, name) in nameKeyData"
+          :key="name"
+          v-show="displayResult[name]"
+        >
+          <th>{{ name }}</th>
+          <td v-for="(row, index) in nameData.summaryTableRowData" :key="index">
+            {{ row }}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
     <ul class="sb__result">
       <li
         class="result__item"
@@ -163,13 +184,18 @@ import SelectElement from "@/components/elements/SelectElement.vue";
 import ButtonElement from "@/components/elements/ButtonElement.vue";
 import DragDrop from "@/components/DragDrop.vue";
 import NotificationPopup from "@/components/utils/NotificationPopup.vue";
-import filterWeekAllExcel from "@/composables/filterWeekAllExcel";
+import {
+  filterWeekAllExcel,
+  getProjectList,
+} from "@/composables/filterWeekAllExcel";
 import getNameList from "@/composables/getNameList";
+
 import {
   convertToBarChartData,
   convertToRoundChartData,
   getSummaryData,
   getSummaryTotalData,
+  getSummaryTableRowData,
 } from "@/composables/convertToChartData";
 import { copyText } from "@/composables/copyText";
 
@@ -247,6 +273,8 @@ export default {
 
     // 이름 리스트
     const nameList = ref([]);
+    // 프로젝트 리스트
+    const projectList = ref([]);
     // {이름: 데이터}
     const nameKeyData = ref({});
     // 요약 텍스트 영역
@@ -260,6 +288,7 @@ export default {
       excelData.value = data;
 
       nameList.value = getNameList(data);
+      projectList.value = getProjectList(data);
 
       nameKeyData.value = {}; // 초기화
       for (const [key, name] of Object.entries(nameList.value)) {
@@ -273,12 +302,19 @@ export default {
         const summaryData = getSummaryData(filteredExcelData);
         const summaryTotalData = getSummaryTotalData(filteredExcelData);
 
+        // table row 데이터 Get
+        const summaryTableRowData = getSummaryTableRowData(
+          summaryData,
+          projectList.value
+        );
+
         nameKeyData.value[name] = {
           filteredExcelData,
           barChartData,
           roundChartData,
           summaryData,
           summaryTotalData,
+          summaryTableRowData,
         };
       }
       console.log(nameKeyData.value);
@@ -317,12 +353,19 @@ export default {
           const summaryData = getSummaryData(filteredExcelData);
           const summaryTotalData = getSummaryTotalData(filteredExcelData);
 
+          // table row 데이터 Get
+          const summaryTableRowData = getSummaryTableRowData(
+            summaryData,
+            projectList.value
+          );
+
           nameKeyData.value[name] = {
             filteredExcelData,
             barChartData,
             roundChartData,
             summaryData,
             summaryTotalData,
+            summaryTableRowData,
           };
         }
 
@@ -348,6 +391,7 @@ export default {
 
     return {
       nameList,
+      projectList,
       workEndTimeByName,
       workStartTimeList,
       getExcelData,

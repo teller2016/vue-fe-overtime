@@ -100,9 +100,29 @@ const getSummaryTotalData = (data) => {
   };
 };
 
+// project에 대한 요약row 데이터 return (ex. ['X', '0.5 / 0', '24 / 0', 'X', 'X', 'X', '7 / 0', '0.5 / 0', 'X'])
+const getSummaryTableRowData = (summaryData, projectList) => {
+  const row = [];
+  projectList.map((project) => {
+    let workTime = "";
+    let data = summaryData.find((item) => {
+      return item.name == project;
+    });
+
+    if (data) {
+      workTime = `${data.T} / ${data.OT}`;
+    }
+
+    row.push(workTime);
+  });
+
+  return row;
+};
+
 export {
   convertToBarChartData,
   convertToRoundChartData,
   getSummaryData,
   getSummaryTotalData,
+  getSummaryTableRowData,
 };

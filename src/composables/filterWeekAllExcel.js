@@ -51,7 +51,7 @@ class Project {
   }
 }
 
-const filterWeekExcelData = (data, quitTime, name) => {
+const filterWeekAllExcel = (data, quitTime, name) => {
   // console.log(data);
 
   const result = {};
@@ -156,4 +156,21 @@ const getWorkTime = (startTime, endTime, quitTime) => {
     OT,
   };
 };
-export default filterWeekExcelData;
+
+// 프로젝트 목록 return
+const getProjectList = (data) => {
+  const projectSet = new Set();
+
+  data.forEach((item) => {
+    const scheduleDetail = item["일정명"];
+    const projectName = getProjectName(scheduleDetail);
+
+    projectSet.add(projectName);
+  });
+
+  const result = Array.from(projectSet);
+  console.log(result);
+  return result;
+};
+
+export { filterWeekAllExcel, getProjectList };
