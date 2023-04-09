@@ -1,5 +1,9 @@
 <template>
   <div class="sb__container">
+    <a href="https://fe-overtime.netlify.app/" class="sb__tempLink"
+      >현재 미완성입니다. 클릭하여 동작 페이지로 이동</a
+    >
+
     <!-- 옵션 영역 -->
     <div class="container__box">
       <div class="sb__options">
@@ -304,6 +308,16 @@ export default {
 
 <style lang="scss" scoped>
 .sb {
+  &__tempLink {
+    display: inline-block;
+    color: red;
+    margin-bottom: 14px;
+    font-size: 25px;
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
   &__container {
     max-width: 1920px;
     margin: 0 auto;
