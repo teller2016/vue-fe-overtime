@@ -73,7 +73,9 @@
           :key="name"
           v-show="displayResult[name]"
         >
-          <th>{{ name }}</th>
+          <th :class="{ error: nameKeyData[name].summaryTotalData.T !== 40 }">
+            {{ name }}
+          </th>
           <td v-for="(row, index) in nameData.summaryTableRowData" :key="index">
             {{ row }}
           </td>
@@ -395,6 +397,22 @@ export default {
 
 <style lang="scss" scoped>
 .sb {
+  .error {
+    $errorColor: #ed4555;
+    color: $errorColor;
+    position: relative;
+
+    &:before {
+      content: "*T 확인 필요";
+      position: absolute;
+      top: 0;
+      left: 0;
+      color: $errorColor;
+      font-size: 12px;
+      white-space: nowrap;
+    }
+  }
+
   &__container {
     width: 1280px;
     margin: 0 auto;
