@@ -283,6 +283,29 @@ export default {
     // 보이기 숨기기 처리
     const displayResult = ref({});
 
+    // 요약된 데이터 셋팅
+    const setNameKeyDataByExcelData = (name, filteredExcelData) => {
+      const barChartData = convertToBarChartData(filteredExcelData);
+      const roundChartData = convertToRoundChartData(filteredExcelData);
+      const summaryData = getSummaryData(filteredExcelData);
+      const summaryTotalData = getSummaryTotalData(filteredExcelData);
+
+      // table row 데이터 Get
+      const summaryTableRowData = getSummaryTableRowData(
+        summaryData,
+        projectList.value
+      );
+
+      nameKeyData.value[name] = {
+        filteredExcelData,
+        barChartData,
+        roundChartData,
+        summaryData,
+        summaryTotalData,
+        summaryTableRowData,
+      };
+    };
+
     // 엑셀 데이터 불러오기
     const getExcelData = (data) => {
       excelData.value = data;
@@ -293,46 +316,14 @@ export default {
       nameKeyData.value = {}; // 초기화
       for (const [key, name] of Object.entries(nameList.value)) {
         const filteredExcelData = filterWeekAllExcel(
-          data,
+          excelData.value,
           workStartTimeList[1].value, //초기 필터링은 9:30 기준
           name
         );
-        const barChartData = convertToBarChartData(filteredExcelData);
-        const roundChartData = convertToRoundChartData(filteredExcelData);
-        const summaryData = getSummaryData(filteredExcelData);
-        const summaryTotalData = getSummaryTotalData(filteredExcelData);
-
-        // table row 데이터 Get
-        const summaryTableRowData = getSummaryTableRowData(
-          summaryData,
-          projectList.value
-        );
-
-        nameKeyData.value[name] = {
-          filteredExcelData,
-          barChartData,
-          roundChartData,
-          summaryData,
-          summaryTotalData,
-          summaryTableRowData,
-        };
+        setNameKeyDataByExcelData(name, filteredExcelData);
       }
       console.log(nameKeyData.value);
     };
-
-    // 이름 리스트 Watch
-    watch(nameList, () => {
-      const workEndTimeObj = {};
-      const displayResultObj = {};
-
-      nameList.value.forEach((name) => {
-        workEndTimeObj[name] = workStartTimeList[1].value;
-        displayResultObj[name] = true;
-      });
-
-      workEndTimeByName.value = workEndTimeObj;
-      displayResult.value = displayResultObj;
-    });
 
     // 이름별 출근시간 Watch
     watch(
@@ -348,31 +339,27 @@ export default {
             workEndTimeByName.value[name],
             name
           );
-          const barChartData = convertToBarChartData(filteredExcelData);
-          const roundChartData = convertToRoundChartData(filteredExcelData);
-          const summaryData = getSummaryData(filteredExcelData);
-          const summaryTotalData = getSummaryTotalData(filteredExcelData);
-
-          // table row 데이터 Get
-          const summaryTableRowData = getSummaryTableRowData(
-            summaryData,
-            projectList.value
-          );
-
-          nameKeyData.value[name] = {
-            filteredExcelData,
-            barChartData,
-            roundChartData,
-            summaryData,
-            summaryTotalData,
-            summaryTableRowData,
-          };
+          setNameKeyDataByExcelData(name, filteredExcelData);
         }
 
         console.log(nameKeyData.value);
       },
       { deep: true }
     );
+
+    // 이름 리스트 Watch
+    watch(nameList, () => {
+      const workEndTimeObj = {};
+      const displayResultObj = {};
+
+      nameList.value.forEach((name) => {
+        workEndTimeObj[name] = workStartTimeList[1].value;
+        displayResultObj[name] = true;
+      });
+
+      workEndTimeByName.value = workEndTimeObj;
+      displayResult.value = displayResultObj;
+    });
 
     // 복사버튼 기능
     const onCopyText = (index) => {
