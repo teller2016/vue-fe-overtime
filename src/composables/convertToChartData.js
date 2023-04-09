@@ -104,7 +104,7 @@ const getSummaryTotalData = (data) => {
 const getSummaryTableRowData = (summaryData, projectList) => {
   const row = [];
   projectList.map((project) => {
-    let workTime = "";
+    let workTime = "-";
     let data = summaryData.find((item) => {
       return item.name == project;
     });

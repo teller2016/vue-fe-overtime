@@ -60,7 +60,7 @@
       </div>
     </div>
 
-    <table v-if="Object.keys(nameKeyData).length">
+    <table class="sb__summaryTable" v-if="Object.keys(nameKeyData).length">
       <thead>
         <tr>
           <th></th>
@@ -397,6 +397,10 @@ export default {
 
 <style lang="scss" scoped>
 .sb {
+  &__summaryTable {
+    width: calc(100% - 20px);
+    margin-top: 16px;
+  }
   .error {
     $errorColor: #ed4555;
     color: $errorColor;
