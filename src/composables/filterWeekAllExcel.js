@@ -169,7 +169,6 @@ const getProjectList = (data) => {
   });
 
   const result = Array.from(projectSet);
-  console.log(result);
   return result;
 };
 
