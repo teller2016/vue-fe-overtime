@@ -129,9 +129,10 @@ const timeToNumber = (time) => {
 
 const getProjectName = (scheduleDetail) => {
   const regex = /\[(.*?)\]/g;
-  const matches = scheduleDetail
-    .match(regex)
-    .map((match) => match.slice(1, -1));
+
+  const match = scheduleDetail.match(regex);
+  if (!match) return "NULL";
+  const matches = match.map((match) => match.slice(1, -1));
 
   const spaceRegex = /\s/g;
   const projectName = matches[0].replace(spaceRegex, "");
