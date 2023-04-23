@@ -140,7 +140,19 @@ const getProjectName = (scheduleDetail) => {
   return projectName;
 };
 
+/**
+ *
+ * @param {*} startTime 일정 시작시간
+ * @param {*} endTime 일정 끝 시간
+ * @param {*} quitTime 퇴근시간
+ * @returns
+ */
 const getWorkTime = (startTime, endTime, quitTime) => {
+  // 00시까지 근무한 CASE
+  if (endTime === 0) {
+    endTime = 24;
+  }
+
   let T = 0;
   let OT = 0;
   if (endTime <= quitTime) {

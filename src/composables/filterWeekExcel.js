@@ -136,6 +136,11 @@ const getProjectName = (scheduleDetail) => {
 };
 
 const getWorkTime = (startTime, endTime, quitTime) => {
+  // 00시까지 근무한 CASE
+  if (endTime === 0) {
+    endTime = 24;
+  }
+
   let T = 0;
   let OT = 0;
   if (endTime <= quitTime) {
