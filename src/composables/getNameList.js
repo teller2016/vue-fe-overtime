@@ -1,9 +1,14 @@
 const getNameList = (data) => {
+  console.log(data);
   const nameSet = new Set();
 
   data.forEach((item) => {
     const name = item["등록자"];
-    nameSet.add(name);
+    const targetList = item["일정대상자"];
+
+    if (targetList.includes(name)) {
+      nameSet.add(name);
+    }
   });
 
   let result = Array.from(nameSet);

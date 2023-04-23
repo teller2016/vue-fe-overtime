@@ -365,15 +365,15 @@ export default {
 
     // 복사버튼 기능
     const onCopyText = (index) => {
-      console.log(summaryText.value);
       let textContent = summaryText.value[index].textContent.trim();
+      console.log(textContent);
 
       let count = 0;
       textContent = textContent.replace(/\[/g, (match) => {
         count++;
         return count === 1 ? match : "\n\n[";
       });
-      textContent = textContent.replaceAll("]T", "]\nT");
+      textContent = textContent.replaceAll("] T", "]\nT");
       textContent = textContent.replaceAll(" OT", "\nOT");
       copyText(textContent);
     };
