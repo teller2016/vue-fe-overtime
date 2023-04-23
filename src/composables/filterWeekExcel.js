@@ -1,3 +1,4 @@
+// TODO: 미사용시 삭제필요 filterWeekAllExcel.js로 개인,전체보고 작성 둘다 계산
 class Project {
   constructor(name) {
     this.name = name;

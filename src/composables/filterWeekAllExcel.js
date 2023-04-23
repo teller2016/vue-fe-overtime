@@ -51,16 +51,19 @@ class Project {
   }
 }
 
-const filterWeekAllExcel = (data, quitTime, name) => {
-  // console.log(data);
+const filterWeekAllExcel = (data, quitTime, name = "") => {
+  console.log(data);
 
   const result = {};
   const daySet = new Set();
 
   data.forEach((item) => {
     // #region 자신이 포함된 데이터인지 판별
-    const targetName = item["일정대상자"];
-    if (!targetName.includes(name)) return;
+    // 개인주간보고 작성의 경우 이름구분 SKIP
+    if (name) {
+      const targetName = item["일정대상자"];
+      if (!targetName.includes(name)) return;
+    }
     // #endregion
     const day = item["일자"];
     daySet.add(day);

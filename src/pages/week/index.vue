@@ -117,7 +117,8 @@ import SelectElement from "@/components/elements/SelectElement.vue";
 import ButtonElement from "@/components/elements/ButtonElement.vue";
 import DragDrop from "@/components/DragDrop.vue";
 import NotificationPopup from "@/components/utils/NotificationPopup.vue";
-import filterWeekExcelData from "@/composables/filterWeekExcel";
+// import filterWeekExcelData from "@/composables/filterWeekExcel";
+import { filterWeekAllExcel } from "@/composables/filterWeekAllExcel";
 import {
   convertToBarChartData,
   convertToRoundChartData,
@@ -205,7 +206,7 @@ export default {
     const getExcelData = (data) => {
       excelData.value = data;
 
-      filteredExcelData.value = filterWeekExcelData(data, workEndTime.value);
+      filteredExcelData.value = filterWeekAllExcel(data, workEndTime.value);
       barChartData.value = convertToBarChartData(filteredExcelData.value);
       roundChartData.value = convertToRoundChartData(filteredExcelData.value);
       summaryData.value = getSummaryData(filteredExcelData.value);
@@ -214,7 +215,7 @@ export default {
 
     watch(workEndTime, () => {
       if (!excelData.value) return;
-      filteredExcelData.value = filterWeekExcelData(
+      filteredExcelData.value = filterWeekAllExcel(
         excelData.value,
         workEndTime.value
       );
@@ -232,7 +233,7 @@ export default {
         count++;
         return count === 1 ? match : "\n\n[";
       });
-      textContent = textContent.replaceAll("]T", "]\nT");
+      textContent = textContent.replaceAll("] T", "]\nT");
       textContent = textContent.replaceAll(" OT", "\nOT");
       copyText(textContent);
     };
