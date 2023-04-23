@@ -14,7 +14,7 @@ const router = createRouter({
     // },
     {
       path: "/",
-      redirect: "/week",
+      redirect: "/weekAll",
     },
     {
       path: "/week", //url

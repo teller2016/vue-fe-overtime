@@ -3,7 +3,7 @@
     <h1 class="nav__title">일지 정리 툴</h1>
 
     <ul class="nav__list">
-      <li class="nav__item">
+      <!-- <li class="nav__item">
         <router-link
           class="nav__link"
           active-class="active"
@@ -11,7 +11,7 @@
         >
           주간보고 작성
         </router-link>
-      </li>
+      </li> -->
       <li class="nav__item">
         <router-link
           class="nav__link"

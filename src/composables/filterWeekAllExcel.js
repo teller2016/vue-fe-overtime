@@ -52,8 +52,6 @@ class Project {
 }
 
 const filterWeekAllExcel = (data, quitTime, name = "") => {
-  console.log(data);
-
   const result = {};
   const daySet = new Set();
 

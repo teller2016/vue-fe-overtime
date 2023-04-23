@@ -55,7 +55,9 @@ export default {
   &__container {
     .container {
       &__box {
-        border: 1px solid black;
+        // border: 1px solid black;
+        border-radius: 16px;
+        box-shadow: 6px 6px 16px 3px rgba(0, 0, 0, 0.1);
       }
     }
   }
@@ -82,7 +84,7 @@ export default {
     padding: 16px;
 
     &:not(:first-of-type) {
-      border-left: 1px solid black;
+      border-left: 1px solid #e9e9e9;
     }
     .option {
       &__header {

@@ -6,7 +6,8 @@ const getNameList = (data) => {
     const name = item["등록자"];
     const targetList = item["일정대상자"];
 
-    if (targetList.includes(name)) {
+    // 일정대상자에 자신만 속하는 경우에 이름추가
+    if (name === targetList) {
       nameSet.add(name);
     }
   });
