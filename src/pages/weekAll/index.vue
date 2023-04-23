@@ -33,7 +33,10 @@
             <dl class="sb__time" v-for="name in nameList" :key="name">
               <!-- 보이기/숨기기 처리 -->
 
-              <dt class="time__title">
+              <dt
+                class="time__title"
+                :class="{ disabled: nameList.length <= 1 }"
+              >
                 <label>
                   <input
                     type="checkbox"
@@ -439,6 +442,13 @@ export default {
         }
         label {
           cursor: pointer;
+        }
+
+        &.disabled {
+          pointer-events: none;
+          input {
+            display: none;
+          }
         }
       }
 
