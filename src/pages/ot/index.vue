@@ -146,7 +146,7 @@
           >HTML 복사</ButtonElement
         >
       </div>
-      <div class="result__html">
+      <div class="result__html" ref="resultHtml">
         <ResultTemplate v-if="totalResult.totalCombinedData.length" :totalCombinedData="totalResult.totalCombinedData" :totalWorkTime="totalResult.totalWorkTime" />
       </div>
     </div>
@@ -161,6 +161,7 @@ import NotificationPopup from "@/components/utils/NotificationPopup.vue";
 import ButtonElement from "@/components/elements/ButtonElement.vue";
 import ResultTemplate from "@/components/ResultTemplate.vue";
 import {filterOvertimeExcelData, getTotalCombinedData} from "@/composables/filterOvertimeExcel";
+import {copyText} from "@/composables/copyText";
 export default {
   components: {
     SelectElement,
@@ -210,6 +211,8 @@ export default {
       'totalWorkTime': 0,
       'totalCombinedData': []
     });
+
+    const resultHtml = ref();
 
     watchEffect(() => {
       const unsortedData = [];
@@ -337,6 +340,7 @@ export default {
     }
 
     const copyHtml = () => {
+      copyText(resultHtml.value.innerHTML, 'HTML이 복사되었습니다! OT대장 HTML에 덮어주세요!');
     }
 
     return {
@@ -354,7 +358,8 @@ export default {
       workStartTime,
       combineData,
       totalResult,
-      copyHtml
+      resultHtml,
+      copyHtml,
     };
   },
 };
@@ -430,6 +435,7 @@ export default {
   }
 
   &__result {
+    margin-top: 50px;
     padding: 20px;
     .result {
       &__header {
@@ -443,6 +449,7 @@ export default {
         justify-content: center;
         gap: 20px;
         text-align: center;
+        margin-bottom: 30px;
 
         button {
           width: 200px;

@@ -1,4 +1,4 @@
-<template ref="resultHtml">
+<template>
 <meta http-equiv="Content-Language" content="ko" />
 <center>
     <table width="100%" style="font-size:10pt;border-collapse:collapse;" cellspacing="0" cellpadding="0">
