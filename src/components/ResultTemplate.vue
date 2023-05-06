@@ -1,4 +1,4 @@
-<template>
+<template ref="resultHtml">
 <meta http-equiv="Content-Language" content="ko" />
 <center>
     <table width="100%" style="font-size:10pt;border-collapse:collapse;" cellspacing="0" cellpadding="0">
@@ -123,9 +123,9 @@
             </tr>
 
             <!-- v-for -->
-            <tr height="35">
-                <td width="23" align="center" style="border:1px solid rgb(0, 0, 0);color:rgb(0, 0, 0);line-height:1.2;font-family:돋움체;font-size:9pt;"><p style="color:rgb(0, 0, 0);line-height:1.2;font-family:돋움체;font-size:10pt;margin-top:0px;margin-bottom:0px;">{[workNumber]}</p></td>
-                <td width="42" align="center" style="border:1px solid rgb(0, 0, 0);color:rgb(0, 0, 0);line-height:1.2;font-family:돋움체;font-size:9pt;"><p style="color:rgb(0, 0, 0);line-height:1.2;font-family:돋움체;font-size:10pt;margin-top:0px;margin-bottom:0px;">{[workDate]}</p></td>
+            <tr height="35" v-for="(workData, index) in totalCombinedData" :key="index">
+                <td width="23" align="center" style="border:1px solid rgb(0, 0, 0);color:rgb(0, 0, 0);line-height:1.2;font-family:돋움체;font-size:9pt;"><p style="color:rgb(0, 0, 0);line-height:1.2;font-family:돋움체;font-size:10pt;margin-top:0px;margin-bottom:0px;">{{ index + 1 }}</p></td>
+                <td width="42" align="center" style="border:1px solid rgb(0, 0, 0);color:rgb(0, 0, 0);line-height:1.2;font-family:돋움체;font-size:9pt;"><p style="color:rgb(0, 0, 0);line-height:1.2;font-family:돋움체;font-size:10pt;margin-top:0px;margin-bottom:0px;">{{ workData.workDate}}</p></td>
                 <td width="41" align="center" style="border:1px solid rgb(0, 0, 0);color:rgb(0, 0, 0);line-height:1.2;font-family:돋움체;font-size:9pt;"><p style="color:rgb(0, 0, 0);line-height:1.2;font-family:돋움체;font-size:10pt;margin-top:0px;margin-bottom:0px;">연장</p></td>
                 <td width="120" align="center" style="border:1px solid rgb(0, 0, 0);color:rgb(0, 0, 0);line-height:1.2;font-family:돋움체;font-size:9pt;">
                     <p>
@@ -145,12 +145,12 @@
                         </span>
                     </p>
                 </td>
-                <td width="41" align="center" style="border:1px solid rgb(0, 0, 0);color:rgb(0, 0, 0);line-height:1.2;font-family:돋움체;font-size:9pt;"><p style="color:rgb(0, 0, 0);line-height:1.2;font-family:돋움체;font-size:10pt;margin-top:0px;margin-bottom:0px;">{[workedTime]}</p></td>
-                <td width="41" align="center" style="border:1px solid rgb(0, 0, 0);color:rgb(0, 0, 0);line-height:1.2;font-family:돋움체;font-size:9pt;"><p style="color:rgb(0, 0, 0);line-height:1.2;font-family:돋움체;font-size:10pt;margin-top:0px;margin-bottom:0px;">{[workStartTime]}</p></td>
-                <td width="39" align="center" style="border:1px solid rgb(0, 0, 0);color:rgb(0, 0, 0);line-height:1.2;font-family:돋움체;font-size:9pt;"><p style="color:rgb(0, 0, 0);line-height:1.2;font-family:돋움체;font-size:10pt;margin-top:0px;margin-bottom:0px;">{[workEndTime]}</p></td>
-                <td width="47" align="center" style="border:1px solid rgb(0, 0, 0);color:rgb(0, 0, 0);line-height:1.2;font-family:돋움체;font-size:9pt;"><p style="color:rgb(0, 0, 0);line-height:1.2;font-family:돋움체;font-size:10pt;margin-top:0px;margin-bottom:0px;">{[workedTime]}</p></td>
-                <td width="73" align="center" style="border:1px solid rgb(0, 0, 0);color:rgb(0, 0, 0);line-height:1.2;font-family:돋움체;font-size:9pt;"><p style="color:rgb(0, 0, 0);line-height:1.2;font-family:돋움체;font-size:10pt;margin-top:0px;margin-bottom:0px;">{[workText]}</p></td>
-                <td width="45" align="center" style="border:1px solid rgb(0, 0, 0);color:rgb(0, 0, 0);line-height:1.2;font-family:돋움체;font-size:9pt;"><p style="color:rgb(0, 0, 0);line-height:1.2;font-family:돋움체;font-size:10pt;margin-top:0px;margin-bottom:0px;">{[dinner]}</p></td>
+                <td width="41" align="center" style="border:1px solid rgb(0, 0, 0);color:rgb(0, 0, 0);line-height:1.2;font-family:돋움체;font-size:9pt;"><p style="color:rgb(0, 0, 0);line-height:1.2;font-family:돋움체;font-size:10pt;margin-top:0px;margin-bottom:0px;">{{workData.workedTime}}</p></td>
+                <td width="41" align="center" style="border:1px solid rgb(0, 0, 0);color:rgb(0, 0, 0);line-height:1.2;font-family:돋움체;font-size:9pt;"><p style="color:rgb(0, 0, 0);line-height:1.2;font-family:돋움체;font-size:10pt;margin-top:0px;margin-bottom:0px;">{{workData.workStartTime}}</p></td>
+                <td width="39" align="center" style="border:1px solid rgb(0, 0, 0);color:rgb(0, 0, 0);line-height:1.2;font-family:돋움체;font-size:9pt;"><p style="color:rgb(0, 0, 0);line-height:1.2;font-family:돋움체;font-size:10pt;margin-top:0px;margin-bottom:0px;">{{workData.workEndTime}}</p></td>
+                <td width="47" align="center" style="border:1px solid rgb(0, 0, 0);color:rgb(0, 0, 0);line-height:1.2;font-family:돋움체;font-size:9pt;"><p style="color:rgb(0, 0, 0);line-height:1.2;font-family:돋움체;font-size:10pt;margin-top:0px;margin-bottom:0px;">{{workData.workedTime}}</p></td>
+                <td width="73" align="center" style="border:1px solid rgb(0, 0, 0);color:rgb(0, 0, 0);line-height:1.2;font-family:돋움체;font-size:9pt;"><p style="color:rgb(0, 0, 0);line-height:1.2;font-family:돋움체;font-size:10pt;margin-top:0px;margin-bottom:0px;">{{workData.workText}}</p></td>
+                <td width="45" align="center" style="border:1px solid rgb(0, 0, 0);color:rgb(0, 0, 0);line-height:1.2;font-family:돋움체;font-size:9pt;"><p style="color:rgb(0, 0, 0);line-height:1.2;font-family:돋움체;font-size:10pt;margin-top:0px;margin-bottom:0px;" v-html="workData.dinner"></p></td>
                 <td width="40" align="center" style="border:1px solid rgb(0, 0, 0);color:rgb(0, 0, 0);line-height:1.2;font-family:돋움체;font-size:9pt;"><p style="color:rgb(0, 0, 0);line-height:1.2;font-family:돋움체;font-size:10pt;margin-top:0px;margin-bottom:0px;"></p></td>
                 <td width="43" align="center" style="border:1px solid rgb(0, 0, 0);color:rgb(0, 0, 0);line-height:1.2;font-family:돋움체;font-size:9pt;"><p style="color:rgb(0, 0, 0);line-height:1.2;font-family:돋움체;font-size:10pt;margin-top:0px;margin-bottom:0px;"></p></td>
             </tr>
@@ -160,7 +160,7 @@
                     <p style="font-family:돋움체;font-size:9pt;color:rgb(0, 0, 0);margin-top:0px;margin-bottom:0px;line-height:1.2;"><b><font color="#ffffff">승인시간 소계</font></b></p>
                 </td>
                 <td width="47" align="right" style="border:1px solid rgb(0, 0, 0);color:rgb(0, 0, 0);line-height:1.2;padding-right:3px;font-family:돋움체;font-size:9pt;" bgcolor="#e26b0a">
-                    <p style="font-family:돋움체;font-size:9pt;color:rgb(0, 0, 0);margin-top:0px;margin-bottom:0px;line-height:1.2;"><b><font color="#ffffff">{[totalWorkTime]}<br /></font></b></p>
+                    <p style="font-family:돋움체;font-size:9pt;color:rgb(0, 0, 0);margin-top:0px;margin-bottom:0px;line-height:1.2;"><b><font color="#ffffff">{{totalWorkTime}}<br /></font></b></p>
                 </td>
                 <td width="73" align="center" style="border:1px solid rgb(0, 0, 0);color:rgb(0, 0, 0);line-height:1.2;font-family:돋움체;font-size:9pt;" bgcolor="#e26b0a">
                     <p style="font-family:돋움체;font-size:9pt;color:rgb(0, 0, 0);margin-top:0px;margin-bottom:0px;line-height:1.2;"><b><font color="#ffffff">비용 소계</font></b></p>
@@ -182,7 +182,16 @@
 
 <script>
 export default {
+    props: {
+    totalWorkTime: Number,
+    totalCombinedData: Object,
+  },
+  setup(props, context) {
 
+
+    return {
+    };
+  },
 }
 </script>
 

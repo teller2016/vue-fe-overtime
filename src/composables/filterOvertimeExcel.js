@@ -84,4 +84,50 @@ const timeToNumber = (time) => {
   }
 };
 
-export default filterOvertimeExcelData;
+// 18.5 => 18:30
+const numberToTime = (numberTime) => {
+  // 소수점 아니면
+  if (Math.ceil(numberTime) == numberTime) {
+    return numberTime.toString() + ":00";
+  } else {
+    return Math.floor(numberTime).toString() + ":30";
+  }
+};
+
+const getTotalCombinedData = (resultData) => {
+  console.log(resultData);
+  let totalWorkTime = 0;
+  const totalCombinedData = [];
+
+  for (const [day, data] of Object.entries(resultData)) {
+    const workStartTime = data["startTime"];
+    const workEndTime = data["endTime"];
+    const workedTime = workEndTime - workStartTime;
+
+    // OT가 아닌 경우 처리
+    if (workedTime <= 0) continue;
+
+    totalWorkTime += workedTime;
+
+    const combinedData = {
+      workDate: data["date"],
+      workStartTime: numberToTime(workStartTime),
+      workEndTime: numberToTime(workEndTime),
+      workedTime: workedTime,
+      dinner: data["dinner"] ? data["dinner"] : "",
+      workText: data["text"],
+    };
+
+    totalCombinedData.push(combinedData);
+  }
+
+  return {
+    totalWorkTime,
+    totalCombinedData
+  }
+};
+
+export {
+  filterOvertimeExcelData,
+  getTotalCombinedData,
+};

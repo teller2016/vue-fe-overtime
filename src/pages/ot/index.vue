@@ -1,7 +1,7 @@
 <template>
   <div class="sb__container">
     <a href="https://fe-overtime.netlify.app/" class="sb__tempLink"
-      >현재 미완성입니다. 클릭하여 동작 페이지로 이동</a
+      >베타 테스트중입니다. 기존 사이트로 이동</a
     >
 
     <!-- 옵션 영역 -->
@@ -137,12 +137,17 @@
     <div class="container__box sb__result">
       <h2 class="result__header">결과</h2>
       <div class="result__btn">
-        <ButtonElement type="button" size="xlg" line="black"
+        <ButtonElement type="button" size="xlg" line="black" @on-click="combineData"
           >결과조회</ButtonElement
+        >
+
+        <ButtonElement type="button" size="xlg" line="orange" @on-click="copyHtml"
+          v-if="totalResult.totalCombinedData.length"
+          >HTML 복사</ButtonElement
         >
       </div>
       <div class="result__html">
-        <ResultTemplate v-if="Object.keys(workList).length" />
+        <ResultTemplate v-if="totalResult.totalCombinedData.length" :totalCombinedData="totalResult.totalCombinedData" :totalWorkTime="totalResult.totalWorkTime" />
       </div>
     </div>
   </div>
@@ -155,7 +160,7 @@ import DragDrop from "@/components/DragDrop.vue";
 import NotificationPopup from "@/components/utils/NotificationPopup.vue";
 import ButtonElement from "@/components/elements/ButtonElement.vue";
 import ResultTemplate from "@/components/ResultTemplate.vue";
-import filterOvertimeExcelData from "@/composables/filterOvertimeExcel";
+import {filterOvertimeExcelData, getTotalCombinedData} from "@/composables/filterOvertimeExcel";
 export default {
   components: {
     SelectElement,
@@ -199,6 +204,12 @@ export default {
     const workYear = ref("");
     // 출근시간
     const workStartTime = ref(workStartTimeList[1].value);
+
+    // 계산 된 총 데이터
+    const totalResult = ref({
+      'totalWorkTime': 0,
+      'totalCombinedData': []
+    });
 
     watchEffect(() => {
       const unsortedData = [];
@@ -288,6 +299,46 @@ export default {
       console.log(workList.value);
     };
 
+    const combineData = () => {
+      const combinedData = {};
+      const workStartTimeNumber = Number(workStartTime.value);
+      const year = Number(workYear.value);
+      // console.log(workStartTimeNumber);
+      // console.log(year);
+
+
+      for (const [day, workData] of Object.entries(workList.value)) {
+        // console.table(workData);
+        const data = {
+          date: [year, workData["month"], workData["day"]].join("."),
+          startTime: workStartTime.value,
+          endTime: workData["endTime"],
+          text: workData["text"],
+        };
+
+        combinedData[day] = data;
+      }
+
+      dinnerList.value.forEach(dinner => {
+        const day = dinner.day;1
+        if (!combinedData[day]) {
+          alert(
+            `${dinner.date}에는 OT 일정이 없습니다! 한번 확인해주세요!`
+          );
+          return;
+        }
+
+        combinedData[day]["startTime"] = workStartTimeNumber + 1;
+        combinedData[day]["dinner"] = `석식대<br/>(${dinner.text})`;
+      });
+
+      totalResult.value = getTotalCombinedData(combinedData);
+      console.log(totalResult.value);
+    }
+
+    const copyHtml = () => {
+    }
+
     return {
       years,
       workStartTimeList,
@@ -301,6 +352,9 @@ export default {
       workList,
       workYear,
       workStartTime,
+      combineData,
+      totalResult,
+      copyHtml
     };
   },
 };
@@ -312,7 +366,7 @@ export default {
     display: inline-block;
     color: red;
     margin-bottom: 14px;
-    font-size: 25px;
+    font-size: 20px;
     &:hover {
       text-decoration: underline;
     }
@@ -385,7 +439,11 @@ export default {
       }
 
       &__btn {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
         text-align: center;
+
         button {
           width: 200px;
         }
