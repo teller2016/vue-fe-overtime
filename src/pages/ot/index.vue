@@ -340,7 +340,8 @@ export default {
     }
 
     const copyHtml = () => {
-      copyText(resultHtml.value.innerHTML, 'HTML이 복사되었습니다! OT대장 HTML에 덮어주세요!');
+      const text = resultHtml.value.innerHTML.replaceAll('<option>프로젝트업무</option>', '<option selected="selected">프로젝트업무</option>');
+      copyText(text, 'HTML이 복사되었습니다! OT대장 HTML에 덮어주세요!');
     }
 
     return {
