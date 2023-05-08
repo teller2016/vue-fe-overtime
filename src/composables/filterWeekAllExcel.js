@@ -156,7 +156,14 @@ const getWorkTime = (startTime, endTime, quitTime) => {
 
   let T = 0;
   let OT = 0;
-  if (endTime <= quitTime) {
+  /**
+   * 새벽 야근 case 처리
+   * 야근으로 다음날 새벽까지 작업한 경우
+   * ex. 00:00 ~ 01:00는 (18.5 - 9)[출근시간] 보다 이르니 야근으로 처리함)
+   */
+  if (endTime < quitTime - 9) {
+    OT = endTime - startTime;
+  } else if (endTime <= quitTime) {
     T = endTime - startTime;
   } else if (quitTime <= startTime) {
     OT = endTime - startTime;
