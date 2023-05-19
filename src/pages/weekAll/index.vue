@@ -189,6 +189,7 @@
         class="schedule__content"
         v-for="(nameData, name) in nameKeyData"
         :key="name"
+        v-show="schedule.name == name"
       >
         <!-- 프로젝트별 T, OT 일정명 loop (T,OT배열 / 프로젝트이름) -->
         <div
@@ -200,7 +201,7 @@
           <h2 class="schedule__projectName">{{ projectName }}</h2>
 
           <!-- T -->
-          <dl class="schedule__box">
+          <dl class="schedule__box" v-if="scheduleData.T.length">
             <dt class="schedule__type">T</dt>
             <dd
               class="schedule__detail"
@@ -212,7 +213,7 @@
           </dl>
 
           <!-- OT -->
-          <dl class="schedule__box">
+          <dl class="schedule__box" v-if="scheduleData.OT.length">
             <dt class="schedule__type">OT</dt>
             <dd
               class="schedule__detail"
@@ -613,6 +614,40 @@ export default {
   }
 
   &__schedule {
+    .schedule {
+      &__content {
+      }
+
+      &__item {
+        &:not(:first-of-type) {
+          margin-top: 30px;
+        }
+      }
+
+      &__projectName {
+        margin-bottom: 8px;
+        color: orange;
+        font-size: 24px;
+      }
+
+      &__box {
+        padding: 12px;
+        border-radius: 4px;
+        box-shadow: 2px 4px 12px 1px rgba(0, 0, 0, 0.1);
+
+        &:not(:first-of-type) {
+          margin-top: 10px;
+        }
+      }
+
+      &__type {
+        font-weight: 600;
+        font-size: 20px;
+      }
+
+      &__detail {
+      }
+    }
   }
 }
 </style>

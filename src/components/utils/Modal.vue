@@ -72,7 +72,7 @@ export default {
       &__content {
         overflow-y: auto;
         max-height: 80vh;
-        padding: 16px 24px;
+        padding: 16px 24px 40px;
         text-align: left;
       }
     }
