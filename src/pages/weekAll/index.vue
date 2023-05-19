@@ -201,6 +201,7 @@ import {
   getSummaryData,
   getSummaryTotalData,
   getSummaryTableRowData,
+  getScheduleData,
 } from "@/composables/convertToChartData";
 import { copyText } from "@/composables/copyText";
 
@@ -294,6 +295,7 @@ export default {
       const roundChartData = convertToRoundChartData(filteredExcelData);
       const summaryData = getSummaryData(filteredExcelData);
       const summaryTotalData = getSummaryTotalData(filteredExcelData);
+      const scheduleData = getScheduleData(filteredExcelData);
 
       // table row 데이터 Get
       const summaryTableRowData = getSummaryTableRowData(
@@ -308,6 +310,7 @@ export default {
         summaryData,
         summaryTotalData,
         summaryTableRowData,
+        scheduleData,
       };
     };
 
@@ -315,7 +318,9 @@ export default {
     const getExcelData = (data) => {
       excelData.value = data;
 
+      // 이름 리스트 GET
       nameList.value = getNameList(data);
+      // 프로젝트 리스트 GET
       projectList.value = getProjectList(data);
 
       nameKeyData.value = {}; // 초기화
@@ -325,6 +330,7 @@ export default {
           workStartTimeList[1].value, //초기 필터링은 9:30 기준
           name
         );
+        console.log(filteredExcelData);
         setNameKeyDataByExcelData(name, filteredExcelData);
       }
       console.log(nameKeyData.value);

@@ -119,10 +119,25 @@ const getSummaryTableRowData = (summaryData, projectList) => {
   return row;
 };
 
+// project 일정명 데이터 return
+const getScheduleData = (data) => {
+  let result = {};
+
+  Object.values(data).forEach((project) => {
+    result[project.getProjectName()] = {
+      T: project.getScheduleList("T"),
+      OT: project.getScheduleList("OT"),
+    };
+  });
+
+  return result;
+};
+
 export {
   convertToBarChartData,
   convertToRoundChartData,
   getSummaryData,
   getSummaryTotalData,
   getSummaryTableRowData,
+  getScheduleData,
 };

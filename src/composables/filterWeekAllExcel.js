@@ -3,6 +3,8 @@ class Project {
     this.name = name;
     this.T = {};
     this.OT = {};
+    this.TScheduleList = [];
+    this.OTScheduleList = [];
   }
 
   addData(day, T, OT) {
@@ -49,6 +51,12 @@ class Project {
     const sortedT = this.sortByKey(this.T);
     return Object.keys(sortedT);
   }
+
+  getScheduleList(type) {
+    let duplicateList = type == "T" ? this.TScheduleList : this.OTScheduleList;
+
+    return [...new Set(duplicateList)];
+  }
 }
 
 const filterWeekAllExcel = (data, quitTime, name = "") => {
@@ -90,11 +98,20 @@ const filterWeekAllExcel = (data, quitTime, name = "") => {
 
     const { T, OT } = getWorkTime(startTime, endTime, quitTime);
 
+    // 처음나오는 프로젝이면 Project객체 생성
     if (!result[projectName]) {
       result[projectName] = new Project(projectName);
     }
     const project = result[projectName];
     project.addData(day, T, OT);
+
+    // 일정명(ex. [푸드케어] 주간회의) 저장
+    if (T !== 0) {
+      project.TScheduleList.push(scheduleDetail);
+    }
+    if (OT !== 0) {
+      project.OTScheduleList.push(scheduleDetail);
+    }
   });
 
   // 요일에 대한 데이터 없는경우 0 넣어주기 위해 처리
@@ -104,7 +121,6 @@ const filterWeekAllExcel = (data, quitTime, name = "") => {
     });
   }
 
-  // console.log(result);
   return result;
 };
 
