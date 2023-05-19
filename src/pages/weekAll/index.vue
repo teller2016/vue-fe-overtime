@@ -180,15 +180,62 @@
       </li>
     </ul>
   </div>
+
+  <Modal v-model="schedule.show">
+    <template v-slot:title>{{ schedule.name }}의 T/OT 상세 일정</template>
+    <div class="sb__schedule">
+      <!-- 일정명 데이터 loop (일정명데이터/ 이름) -->
+      <div
+        class="schedule__content"
+        v-for="(nameData, name) in nameKeyData"
+        :key="name"
+      >
+        <!-- 프로젝트별 T, OT 일정명 loop (T,OT배열 / 프로젝트이름) -->
+        <div
+          class="schedule__item"
+          v-for="(scheduleData, projectName) in nameData.scheduleData"
+          :key="projectName"
+        >
+          <!-- 프로젝트 이름 -->
+          <h2 class="schedule__projectName">{{ projectName }}</h2>
+
+          <!-- T -->
+          <dl class="schedule__box">
+            <dt class="schedule__type">T</dt>
+            <dd
+              class="schedule__detail"
+              v-for="(TSchedule, index) in scheduleData.T"
+              :key="index"
+            >
+              {{ TSchedule }}
+            </dd>
+          </dl>
+
+          <!-- OT -->
+          <dl class="schedule__box">
+            <dt class="schedule__type">OT</dt>
+            <dd
+              class="schedule__detail"
+              v-for="(OTSchedule, index) in scheduleData.OT"
+              :key="index"
+            >
+              {{ OTSchedule }}
+            </dd>
+          </dl>
+        </div>
+      </div>
+    </div>
+  </Modal>
 </template>
 
 <script>
-import { ref, watch } from "vue";
+import { ref, reactive, watch } from "vue";
 import Chart from "@/components/utils/Chart.vue";
 import SelectElement from "@/components/elements/SelectElement.vue";
 import ButtonElement from "@/components/elements/ButtonElement.vue";
 import DragDrop from "@/components/DragDrop.vue";
 import NotificationPopup from "@/components/utils/NotificationPopup.vue";
+import Modal from "@/components/utils/Modal.vue";
 import {
   filterWeekAllExcel,
   getProjectList,
@@ -212,6 +259,7 @@ export default {
     NotificationPopup,
     Chart,
     ButtonElement,
+    Modal,
   },
   setup() {
     // 출근시간 데이터 목록
@@ -289,6 +337,11 @@ export default {
     // 보이기 숨기기 처리
     const displayResult = ref({});
 
+    const schedule = reactive({
+      show: false,
+      name: "",
+    });
+
     // 요약된 데이터 셋팅
     const setNameKeyDataByExcelData = (name, filteredExcelData) => {
       const barChartData = convertToBarChartData(filteredExcelData);
@@ -312,6 +365,7 @@ export default {
         summaryTableRowData,
         scheduleData,
       };
+      schedule.show = true;
     };
 
     // 엑셀 데이터 불러오기
@@ -399,6 +453,7 @@ export default {
       nameKeyData,
       summaryText,
       displayResult,
+      schedule,
     };
   },
 };
@@ -555,6 +610,9 @@ export default {
         }
       }
     }
+  }
+
+  &__schedule {
   }
 }
 </style>
