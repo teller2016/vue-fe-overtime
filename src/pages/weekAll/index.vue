@@ -67,6 +67,7 @@
       <thead>
         <tr>
           <th></th>
+          <th>일정<br />상세보기</th>
           <th v-for="project in projectList" :key="project">{{ project }}</th>
         </tr>
       </thead>
@@ -79,6 +80,16 @@
           <th :class="{ error: nameKeyData[name].summaryTotalData.T !== 40 }">
             {{ name }}
           </th>
+          <td>
+            <ButtonElement
+              type="button"
+              class="summary__copy"
+              size="xxs"
+              line="black"
+              @on-click="showScheduleDetail(name)"
+              >일정확인</ButtonElement
+            >
+          </td>
           <td v-for="(row, index) in nameData.summaryTableRowData" :key="index">
             {{ row }}
           </td>
@@ -366,7 +377,6 @@ export default {
         summaryTableRowData,
         scheduleData,
       };
-      schedule.show = true;
     };
 
     // 엑셀 데이터 불러오기
@@ -442,6 +452,12 @@ export default {
       copyText(textContent);
     };
 
+    // 일정 스케줄 상세보기 모달 노출
+    const showScheduleDetail = (name) => {
+      schedule.show = true;
+      schedule.name = name;
+    };
+
     return {
       nameList,
       projectList,
@@ -455,6 +471,7 @@ export default {
       summaryText,
       displayResult,
       schedule,
+      showScheduleDetail,
     };
   },
 };
