@@ -30,6 +30,15 @@
           OT 작성
         </router-link>
       </li>
+      <li class="nav__item">
+        <router-link
+          class="nav__link"
+          active-class="active"
+          :to="{ name: 'Day' }"
+        >
+          일지 작성 매크로
+        </router-link>
+      </li>
     </ul>
   </nav>
 </template>
@@ -59,7 +68,7 @@ export default {};
       &__list {
         display: flex;
         align-items: center;
-        gap: 12px;
+        gap: 20px;
         margin-left: 30px;
       }
 

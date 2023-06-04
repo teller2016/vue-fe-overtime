@@ -12,7 +12,10 @@
                 받아서 등록해주세요.
               </p>
               <figure class="sb__guide__img">
-                <img src="../../assets/images/weekAllGuide.png" alt="" />
+                <img
+                  src="../../assets/images/weekAllGuide.png"
+                  alt=""
+                />
               </figure>
             </NotificationPopup>
           </header>
@@ -30,7 +33,11 @@
           <header class="option__header">출근시간 설정</header>
 
           <div class="option__content">
-            <dl class="sb__time" v-for="name in nameList" :key="name">
+            <dl
+              class="sb__time"
+              v-for="name in nameList"
+              :key="name"
+            >
               <!-- 보이기/숨기기 처리 -->
 
               <dt
@@ -63,12 +70,18 @@
       </div>
     </div>
 
-    <table class="sb__summaryTable" v-if="Object.keys(nameKeyData).length">
+    <table
+      class="sb__summaryTable"
+      v-if="Object.keys(nameKeyData).length"
+    >
       <thead>
         <tr>
           <th></th>
           <th>일정<br />상세보기</th>
-          <th v-for="project in projectList" :key="project">{{ project }}</th>
+          <th
+            v-for="project in projectList"
+            :key="project"
+          >{{ project }}</th>
         </tr>
       </thead>
       <tbody>
@@ -87,10 +100,12 @@
               size="xxs"
               line="black"
               @on-click="showScheduleDetail(name)"
-              >일정확인</ButtonElement
-            >
+            >일정확인</ButtonElement>
           </td>
-          <td v-for="(row, index) in nameData.summaryTableRowData" :key="index">
+          <td
+            v-for="(row, index) in nameData.summaryTableRowData"
+            :key="index"
+          >
             {{ row }}
           </td>
         </tr>
@@ -142,21 +157,29 @@
                   size="xxs"
                   line="black"
                   @on-click="onCopyText(index)"
-                  >복사</ButtonElement
-                >
+                >복사</ButtonElement>
               </h3>
 
-              <div class="summary__content" ref="summaryText">
+              <div
+                class="summary__content"
+                ref="summaryText"
+              >
                 <template
                   v-for="(item, index) in nameData.summaryData"
                   :key="index"
                 >
                   <dl class="summary__list">
                     <dt class="summary__name">[{{ item.name }}]</dt>
-                    <dd class="summary__data" v-if="item.T != 0">
+                    <dd
+                      class="summary__data"
+                      v-if="item.T != 0"
+                    >
                       T: {{ item.T }}
                     </dd>
-                    <dd class="summary__data" v-if="item.OT != 0">
+                    <dd
+                      class="summary__data"
+                      v-if="item.OT != 0"
+                    >
                       OT: {{ item.OT }}
                     </dd>
                   </dl>
@@ -212,7 +235,10 @@
           <h2 class="schedule__projectName">{{ projectName }}</h2>
 
           <!-- T -->
-          <dl class="schedule__box" v-if="scheduleData.T.length">
+          <dl
+            class="schedule__box"
+            v-if="scheduleData.T.length"
+          >
             <dt class="schedule__type">T</dt>
             <dd
               class="schedule__detail"
@@ -224,7 +250,10 @@
           </dl>
 
           <!-- OT -->
-          <dl class="schedule__box" v-if="scheduleData.OT.length">
+          <dl
+            class="schedule__box"
+            v-if="scheduleData.OT.length"
+          >
             <dt class="schedule__type">OT</dt>
             <dd
               class="schedule__detail"
