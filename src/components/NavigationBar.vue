@@ -30,6 +30,15 @@
           OT 작성
         </router-link>
       </li>
+      <li class="nav__item">
+        <router-link
+          class="nav__link"
+          active-class="active"
+          :to="{ name: 'Test' }"
+        >
+          실험실
+        </router-link>
+      </li>
     </ul>
   </nav>
 </template>

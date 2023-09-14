@@ -3,6 +3,8 @@ import Home from "../pages/index.vue";
 import Week from "../pages/week/index.vue";
 import WeekAll from "../pages/weekAll/index.vue";
 import OT from "../pages/ot/index.vue";
+import Test from "../pages/test/index.vue";
+
 
 const router = createRouter({
   history: createWebHistory(),
@@ -30,6 +32,11 @@ const router = createRouter({
       path: "/ot",
       name: "OT",
       component: OT,
+    },
+    {
+      path: "/test",
+      name: "Test",
+      component: Test,
     },
   ],
 });
