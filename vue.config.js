@@ -1,4 +1,5 @@
-const { defineConfig } = require("@vue/cli-service");
+const { defineConfig } = require('@vue/cli-service');
+
 module.exports = defineConfig({
   lintOnSave: false,
   transpileDependencies: true,
@@ -11,5 +12,12 @@ module.exports = defineConfig({
         `,
       },
     },
+  },
+
+  chainWebpack: (config) => {
+    config.plugin('html').tap((args) => {
+      args[0].title = 'FE 일정';
+      return args;
+    });
   },
 });
