@@ -27,7 +27,7 @@ class Project {
   }
 
   getSum(type) {
-    let data = type == "T" ? this.T : this.OT;
+    let data = type == 'T' ? this.T : this.OT;
     let sum = 0;
     for (let key in data) {
       sum += data[key];
@@ -53,38 +53,38 @@ class Project {
   }
 
   getScheduleList(type) {
-    let duplicateList = type == "T" ? this.TScheduleList : this.OTScheduleList;
+    let duplicateList = type == 'T' ? this.TScheduleList : this.OTScheduleList;
 
     return [...new Set(duplicateList)];
   }
 }
 
-const filterWeekAllExcel = (data, quitTime, name = "") => {
+const filterWeekAllExcel = (data, quitTime, name = '') => {
   const result = {};
   const daySet = new Set();
+
+  // 날짜별로 일정들을 그룹화
+  const dailySchedules = {};
 
   data.forEach((item) => {
     // #region 자신이 포함된 데이터인지 판별
     // 개인주간보고 작성의 경우 이름구분 SKIP
     if (name) {
-      const targetName = item["일정대상자"];
+      const targetName = item['일정대상자'];
       if (!targetName.includes(name)) return;
     }
     // #endregion
-    const day = item["일자"];
+    const day = item['일자'];
     daySet.add(day);
-    const timeRange = item["시간"];
-    const scheduleDetail = item["일정명"];
+    const timeRange = item['시간'];
+    const scheduleDetail = item['일정명'];
 
     // const timeRangeList = timeRange.split(" ~ ");
     const timeRangeStart = timeRange.trim().slice(0, 5);
     const timeRangeEnd = timeRange.trim().slice(-5);
 
-    if (
-      !validateEndTimeData(timeRangeStart) ||
-      !validateEndTimeData(timeRangeEnd)
-    ) {
-      console.error("ERROR 시간형식이 아닌 결과값 나옴");
+    if (!validateEndTimeData(timeRangeStart) || !validateEndTimeData(timeRangeEnd)) {
+      console.error('ERROR 시간형식이 아닌 결과값 나옴');
       return;
     }
 
@@ -96,22 +96,58 @@ const filterWeekAllExcel = (data, quitTime, name = "") => {
     // 푸드케어
     const projectName = getProjectName(scheduleDetail);
 
-    const { T, OT } = getWorkTime(startTime, endTime, quitTime);
+    // 날짜별로 일정 데이터 저장
+    if (!dailySchedules[day]) {
+      dailySchedules[day] = [];
+    }
+    dailySchedules[day].push({
+      startTime,
+      endTime,
+      projectName,
+      scheduleDetail,
+    });
+  });
 
-    // 처음나오는 프로젝이면 Project객체 생성
-    if (!result[projectName]) {
-      result[projectName] = new Project(projectName);
-    }
-    const project = result[projectName];
-    project.addData(day, T, OT);
+  // 날짜별로 T/OT 계산
+  Object.keys(dailySchedules).forEach((day) => {
+    const schedules = dailySchedules[day];
 
-    // 일정명(ex. [푸드케어] 주간회의) 저장
-    if (T !== 0) {
-      project.TScheduleList.push(scheduleDetail);
-    }
-    if (OT !== 0) {
-      project.OTScheduleList.push(scheduleDetail);
-    }
+    // 하루 총 근무시간 계산
+    let totalWorkTime = 0;
+    schedules.forEach((schedule) => {
+      let endTime = schedule.endTime;
+      if (endTime === 0) endTime = 24; // 00시까지 근무한 CASE
+      const workTime = endTime - schedule.startTime;
+
+      let T = 0;
+      let OT = 0;
+
+      if (totalWorkTime >= 8) {
+        OT = workTime;
+      } else if (totalWorkTime + workTime > 8) {
+        T = 8 - totalWorkTime;
+        OT = workTime - T;
+      } else {
+        T = workTime;
+      }
+
+      const projectName = schedule.projectName;
+      if (!result[projectName]) {
+        result[projectName] = new Project(projectName);
+      }
+      const project = result[projectName];
+      project.addData(day, T, OT);
+
+      // 일정명 저장
+      if (T !== 0) {
+        project.TScheduleList.push(schedule.scheduleDetail);
+      }
+      if (OT !== 0) {
+        project.OTScheduleList.push(schedule.scheduleDetail);
+      }
+
+      totalWorkTime += workTime;
+    });
   });
 
   // 요일에 대한 데이터 없는경우 0 넣어주기 위해 처리
@@ -132,12 +168,12 @@ const validateEndTimeData = (time) => {
 
 // 18:30 => 18.5
 const timeToNumber = (time) => {
-  const timeData = time.split(":");
+  const timeData = time.split(':');
 
   const hour = Number(timeData[0]);
   const minute = timeData[1];
 
-  if (minute === "00") {
+  if (minute === '00') {
     return hour;
   } else {
     return hour + 0.5;
@@ -148,11 +184,11 @@ const getProjectName = (scheduleDetail) => {
   const regex = /\[(.*?)\]/g;
 
   const match = scheduleDetail.match(regex);
-  if (!match) return "NULL";
+  if (!match) return 'NULL';
   const matches = match.map((match) => match.slice(1, -1));
 
   const spaceRegex = /\s/g;
-  const projectName = matches[0].replace(spaceRegex, "");
+  const projectName = matches[0].replace(spaceRegex, '');
 
   return projectName;
 };
@@ -199,7 +235,7 @@ const getProjectList = (data) => {
   const projectSet = new Set();
 
   data.forEach((item) => {
-    const scheduleDetail = item["일정명"];
+    const scheduleDetail = item['일정명'];
     const projectName = getProjectName(scheduleDetail);
 
     projectSet.add(projectName);
