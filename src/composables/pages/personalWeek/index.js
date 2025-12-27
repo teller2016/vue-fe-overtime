@@ -31,8 +31,11 @@ const personalWeekComposable = () => {
   // 일정명에서 상세 내용 추출 (대괄호 뒤의 내용)
   const extractScheduleDetail = (scheduleName) => {
     if (!scheduleName) return '';
+
+    return scheduleName.trim();
+
     // 대괄호와 그 안의 내용을 제거하고 나머지 텍스트 반환
-    return scheduleName.replace(/\[[^\]]+\]\s*/, '').trim();
+    // return scheduleName.replace(/\[[^\]]+\]\s*/, '').trim();
   };
 
   // 일자별 총 시간을 계산하여 T/OT 분리
