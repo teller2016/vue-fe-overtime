@@ -1,42 +1,29 @@
-import { createRouter, createWebHistory } from "vue-router";
-import Home from "../pages/index.vue";
-import Week from "../pages/week/index.vue";
-import WeekAll from "../pages/weekAll/index.vue";
-import OT from "../pages/ot/index.vue";
-import Test from "../pages/test/index.vue";
-
+import { createRouter, createWebHistory } from 'vue-router';
+import WeekAll from '../pages/weekAll/index.vue';
+import OT from '../pages/ot/index.vue';
+import PersonalWeek from '../pages/personalWeek/index.vue';
 
 const router = createRouter({
   history: createWebHistory(),
   routes: [
-    // {
-    //   path: "/", //url
-    //   name: "Home",
-    //   component: Home,
-    // },
     {
-      path: "/",
-      redirect: "/weekAll",
+      path: '/',
+      redirect: '/weekAll',
     },
     {
-      path: "/week", //url
-      name: "Week",
-      component: Week,
-    },
-    {
-      path: "/weekAll", //url
-      name: "WeekAll",
+      path: '/weekAll',
+      name: 'WeekAll',
       component: WeekAll,
     },
     {
-      path: "/ot",
-      name: "OT",
-      component: OT,
+      path: '/personalWeek',
+      name: 'PersonalWeek',
+      component: PersonalWeek,
     },
     {
-      path: "/test",
-      name: "Test",
-      component: Test,
+      path: '/ot',
+      name: 'OT',
+      component: OT,
     },
   ],
 });
