@@ -58,7 +58,7 @@
         <tfoot>
           <tr class="result__total">
             <td>합계</td>
-            <td>{{ totalSummary.T }}</td>
+            <td :class="{ warn: totalSummary.T !== 40 }">{{ totalSummary.T }}</td>
             <td>{{ totalSummary.OT }}</td>
             <td></td>
           </tr>
@@ -127,7 +127,11 @@
           td {
             background: #f0f8f0 !important;
             font-weight: 700;
-            color: $pGreen;
+            color: $black;
+
+            &.warn {
+              color: $red;
+            }
           }
         }
 
