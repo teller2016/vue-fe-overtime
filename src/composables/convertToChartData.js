@@ -3,20 +3,20 @@ const convertToBarChartData = (data) => {
   const datasets = [];
 
   Object.values(data).forEach((project, index) => {
-    if (project.getSum("T")) {
+    if (project.getSum('T')) {
       datasets.push({
         label: `${project.getProjectName()} T`,
         data: project.getT(),
-        stack: "T",
+        stack: 'T',
         backgroundColor: getColor(index, 0),
       });
     }
 
-    if (project.getSum("OT")) {
+    if (project.getSum('OT')) {
       datasets.push({
         label: `${project.getProjectName()} OT`,
         data: project.getOT(),
-        stack: "OT",
+        stack: 'OT',
         backgroundColor: getColor(index, 1),
       });
     }
@@ -39,7 +39,7 @@ const convertToRoundChartData = (data) => {
 
   Object.values(data).forEach((project, index) => {
     labels.push(project.getProjectName());
-    datasets[0].data.push(project.getSum("T") + project.getSum("OT"));
+    datasets[0].data.push(project.getSum('T') + project.getSum('OT'));
     datasets[0].backgroundColor.push(getColor(index, 0));
   });
 
@@ -56,15 +56,15 @@ const getDayList = (data) => {
 
 const getColor = (index = 0, type = 0) => {
   const color = [
-    ["#ED5565", "#DA4453"],
-    ["#FFCE54", "#F6BB42"],
-    ["#48CFAD", "#37BC9B"],
-    ["#5D9CEC", "#4A89DC"],
-    ["#EC87C0", "#D770AD"],
-    ["#FC6E51", "#E9573F"],
-    ["#A0D468", "#8CC152"],
-    ["#4FC1E9", "#3BAFDA"],
-    ["#AC92EC", "#967ADC"],
+    ['#ED5565', '#DA4453'],
+    ['#FFCE54', '#F6BB42'],
+    ['#48CFAD', '#37BC9B'],
+    ['#5D9CEC', '#4A89DC'],
+    ['#EC87C0', '#D770AD'],
+    ['#FC6E51', '#E9573F'],
+    ['#A0D468', '#8CC152'],
+    ['#4FC1E9', '#3BAFDA'],
+    ['#AC92EC', '#967ADC'],
   ];
   return color[index % color.length][type % 2];
 };
@@ -72,10 +72,16 @@ const getColor = (index = 0, type = 0) => {
 const getSummaryData = (data) => {
   const summary = [];
   Object.values(data).forEach((project) => {
+    const T = project.getSum('T');
+    const OT = project.getSum('OT');
+    const TMM = project.getMM('T');
+    const OTMM = project.getMM('OT');
     summary.push({
       name: project.getProjectName(),
-      T: project.getSum("T"),
-      OT: project.getSum("OT"),
+      T,
+      OT,
+      TMM,
+      OTMM,
     });
   });
 
@@ -90,8 +96,8 @@ const getSummaryTotalData = (data) => {
   let totalT = 0;
   let totalOT = 0;
   Object.values(data).forEach((project) => {
-    totalT += project.getSum("T");
-    totalOT += project.getSum("OT");
+    totalT += project.getSum('T');
+    totalOT += project.getSum('OT');
   });
 
   return {
@@ -104,7 +110,7 @@ const getSummaryTotalData = (data) => {
 const getSummaryTableRowData = (summaryData, projectList) => {
   const row = [];
   projectList.map((project) => {
-    let workTime = "-";
+    let workTime = '-';
     let data = summaryData.find((item) => {
       return item.name == project;
     });
@@ -125,8 +131,8 @@ const getScheduleData = (data) => {
 
   Object.values(data).forEach((project) => {
     result[project.getProjectName()] = {
-      T: project.getScheduleList("T"),
-      OT: project.getScheduleList("OT"),
+      T: project.getScheduleList('T'),
+      OT: project.getScheduleList('OT'),
     };
   });
 

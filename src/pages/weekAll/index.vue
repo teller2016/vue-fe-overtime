@@ -23,34 +23,6 @@
         </div>
 
         <div class="sb__option"></div>
-
-        <div class="sb__option" v-if="false">
-          <header class="option__header">출근시간 설정</header>
-
-          <div class="option__content">
-            <dl class="sb__time" v-for="name in nameList" :key="name">
-              <!-- 보이기/숨기기 처리 -->
-
-              <dt class="time__title" :class="{ disabled: nameList.length <= 1 }">
-                <label>
-                  <input type="checkbox" checked v-model="displayResult[name]" />
-                  <span>
-                    {{ name }}
-                  </span>
-                </label>
-              </dt>
-              <dd class="time__data">
-                <SelectElement
-                  selectTitle="출근시간"
-                  selectName="start-tiem"
-                  :items="workStartTimeList"
-                  v-model="workEndTimeByName[name]"
-                >
-                </SelectElement>
-              </dd>
-            </dl>
-          </div>
-        </div>
       </div>
     </div>
 
@@ -110,8 +82,8 @@
                 <template v-for="(item, index) in nameData.summaryData" :key="index">
                   <dl class="summary__list">
                     <dt class="summary__name">[{{ item.name }}]</dt>
-                    <dd class="summary__data" v-if="item.T != 0">T: {{ item.T }}</dd>
-                    <dd class="summary__data" v-if="item.OT != 0">OT: {{ item.OT }}</dd>
+                    <dd class="summary__data" v-if="item.T != 0">T: {{ item.T }} ({{ item.TMM }})</dd>
+                    <dd class="summary__data" v-if="item.OT != 0">OT: {{ item.OT }} ({{ item.OTMM }})</dd>
                   </dl>
                   <br />
                 </template>
@@ -168,10 +140,9 @@
   </Modal>
 </template>
 
-<script>
+<script setup>
   import { ref, reactive, watch } from 'vue';
   import Chart from '@/components/utils/Chart.vue';
-  import SelectElement from '@/components/elements/SelectElement.vue';
   import ButtonElement from '@/components/elements/ButtonElement.vue';
   import DragDrop from '@/components/DragDrop.vue';
   import NotificationPopup from '@/components/utils/NotificationPopup.vue';
@@ -189,204 +160,152 @@
   } from '@/composables/convertToChartData';
   import { copyText } from '@/composables/copyText';
 
-  export default {
-    components: {
-      SelectElement,
-      DragDrop,
-      NotificationPopup,
-      Chart,
-      ButtonElement,
-      Modal,
+  // 불러온 엑셀데이터
+  const excelData = ref('');
+
+  // 이름별 퇴근시간 (이름: 퇴근시간)
+  const workEndTimeByName = ref({});
+
+  // 바차트 옵션
+  const barChartOptions = ref({
+    responsive: true,
+    scales: {
+      y: {
+        stacked: true,
+      },
     },
-    setup() {
-      // 출근시간 데이터 목록
-      const workStartTimeList = [
-        {
-          text: '9',
-          value: 18,
-          selected: false,
+    plugins: {
+      title: {
+        display: true,
+        text: '요일별 T/OT',
+        font: {
+          size: 20,
         },
-        {
-          text: '9:30',
-          value: 18.5,
-          selected: true,
+        padding: {
+          bottom: 5,
         },
-        {
-          text: '10:00',
-          value: 19,
-          selected: false,
-        },
-      ];
-      // 불러온 엑셀데이터
-      const excelData = ref('');
-
-      // 이름별 퇴근시간 (이름: 퇴근시간)
-      const workEndTimeByName = ref({});
-
-      // 바차트 옵션
-      const barChartOptions = ref({
-        responsive: true,
-        scales: {
-          y: {
-            stacked: true,
-          },
-        },
-        plugins: {
-          title: {
-            display: true,
-            text: '요일별 T/OT',
-            font: {
-              size: 20,
-            },
-            padding: {
-              bottom: 5,
-            },
-          },
-        },
-      });
-
-      // 도넛차트 옵션
-      const roundChartOptions = ref({
-        cutoutPercentage: 85, // 차트의 굵기
-        plugins: {
-          title: {
-            display: true,
-            text: '전체 T/OT 합',
-            font: {
-              size: 20,
-            },
-            padding: {
-              bottom: 5,
-            },
-          },
-        },
-      });
-
-      // 이름 리스트
-      const nameList = ref([]);
-      // 프로젝트 리스트
-      const projectList = ref([]);
-      // {이름: 데이터}
-      const nameKeyData = ref({});
-      // 요약 텍스트 영역
-      const summaryText = ref(null);
-
-      // 보이기 숨기기 처리
-      const displayResult = ref({});
-
-      const schedule = reactive({
-        show: false,
-        name: '',
-      });
-
-      // 요약된 데이터 셋팅
-      const setNameKeyDataByExcelData = (name, filteredExcelData) => {
-        const barChartData = convertToBarChartData(filteredExcelData);
-        const roundChartData = convertToRoundChartData(filteredExcelData);
-        const summaryData = getSummaryData(filteredExcelData);
-        const summaryTotalData = getSummaryTotalData(filteredExcelData);
-        const scheduleData = getScheduleData(filteredExcelData);
-
-        // table row 데이터 Get
-        const summaryTableRowData = getSummaryTableRowData(summaryData, projectList.value);
-
-        nameKeyData.value[name] = {
-          filteredExcelData,
-          barChartData,
-          roundChartData,
-          summaryData,
-          summaryTotalData,
-          summaryTableRowData,
-          scheduleData,
-        };
-      };
-
-      // 엑셀 데이터 불러오기
-      const getExcelData = (data) => {
-        excelData.value = data;
-
-        // 이름 리스트 GET
-        nameList.value = getNameList(data);
-        // 프로젝트 리스트 GET
-        projectList.value = getProjectList(data);
-
-        nameKeyData.value = {}; // 초기화
-        for (const [key, name] of Object.entries(nameList.value)) {
-          const filteredExcelData = filterWeekAllExcel(
-            excelData.value,
-            workStartTimeList[1].value, //초기 필터링은 9:30 기준
-            name,
-          );
-          setNameKeyDataByExcelData(name, filteredExcelData);
-        }
-      };
-
-      // 이름별 출근시간 Watch
-      watch(
-        workEndTimeByName,
-        () => {
-          if (!excelData.value) return;
-
-          nameKeyData.value = {};
-
-          for (const [key, name] of Object.entries(nameList.value)) {
-            const filteredExcelData = filterWeekAllExcel(excelData.value, workEndTimeByName.value[name], name);
-            setNameKeyDataByExcelData(name, filteredExcelData);
-          }
-        },
-        { deep: true },
-      );
-
-      // 이름 리스트 Watch
-      watch(nameList, () => {
-        const workEndTimeObj = {};
-        const displayResultObj = {};
-
-        nameList.value.forEach((name) => {
-          workEndTimeObj[name] = workStartTimeList[1].value;
-          displayResultObj[name] = true;
-        });
-
-        workEndTimeByName.value = workEndTimeObj;
-        displayResult.value = displayResultObj;
-      });
-
-      // 복사버튼 기능
-      const onCopyText = (index) => {
-        let textContent = summaryText.value[index].textContent.trim();
-
-        let count = 0;
-        textContent = textContent.replace(/\[/g, (match) => {
-          count++;
-          return count === 1 ? match : '\n\n[';
-        });
-        textContent = textContent.replaceAll('] T', ']\nT');
-        textContent = textContent.replaceAll(' OT', '\nOT');
-        copyText(textContent);
-      };
-
-      // 일정 스케줄 상세보기 모달 노출
-      const showScheduleDetail = (name) => {
-        schedule.show = true;
-        schedule.name = name;
-      };
-
-      return {
-        nameList,
-        projectList,
-        workEndTimeByName,
-        workStartTimeList,
-        getExcelData,
-        barChartOptions,
-        roundChartOptions,
-        onCopyText,
-        nameKeyData,
-        summaryText,
-        displayResult,
-        schedule,
-        showScheduleDetail,
-      };
+      },
     },
+  });
+
+  // 도넛차트 옵션
+  const roundChartOptions = ref({
+    cutoutPercentage: 85, // 차트의 굵기
+    plugins: {
+      title: {
+        display: true,
+        text: '전체 T/OT 합',
+        font: {
+          size: 20,
+        },
+        padding: {
+          bottom: 5,
+        },
+      },
+    },
+  });
+
+  // 이름 리스트
+  const nameList = ref([]);
+  // 프로젝트 리스트
+  const projectList = ref([]);
+  // {이름: 데이터}
+  const nameKeyData = ref({});
+  // 요약 텍스트 영역
+  const summaryText = ref(null);
+
+  // 보이기 숨기기 처리
+  const displayResult = ref({});
+
+  const schedule = reactive({
+    show: false,
+    name: '',
+  });
+
+  // 요약된 데이터 셋팅
+  const setNameKeyDataByExcelData = (name, filteredExcelData) => {
+    const barChartData = convertToBarChartData(filteredExcelData);
+    const roundChartData = convertToRoundChartData(filteredExcelData);
+    const summaryData = getSummaryData(filteredExcelData);
+    const summaryTotalData = getSummaryTotalData(filteredExcelData);
+    const scheduleData = getScheduleData(filteredExcelData);
+
+    // table row 데이터 Get
+    const summaryTableRowData = getSummaryTableRowData(summaryData, projectList.value);
+
+    nameKeyData.value[name] = {
+      filteredExcelData,
+      barChartData,
+      roundChartData,
+      summaryData,
+      summaryTotalData,
+      summaryTableRowData,
+      scheduleData,
+    };
+    console.log(nameKeyData.value);
+  };
+
+  // 엑셀 데이터 불러오기
+  const getExcelData = (data) => {
+    excelData.value = data;
+
+    // 이름 리스트 GET
+    nameList.value = getNameList(data);
+    // 프로젝트 리스트 GET
+    projectList.value = getProjectList(data);
+
+    nameKeyData.value = {}; // 초기화
+    for (const [key, name] of Object.entries(nameList.value)) {
+      const filteredExcelData = filterWeekAllExcel(excelData.value, name);
+      setNameKeyDataByExcelData(name, filteredExcelData);
+    }
+  };
+
+  // 이름별 출근시간 Watch
+  watch(
+    workEndTimeByName,
+    () => {
+      if (!excelData.value) return;
+
+      nameKeyData.value = {};
+
+      for (const [key, name] of Object.entries(nameList.value)) {
+        const filteredExcelData = filterWeekAllExcel(excelData.value, name);
+        setNameKeyDataByExcelData(name, filteredExcelData);
+      }
+    },
+    { deep: true },
+  );
+
+  // 이름 리스트 Watch
+  watch(nameList, () => {
+    const displayResultObj = {};
+
+    nameList.value.forEach((name) => {
+      displayResultObj[name] = true;
+    });
+
+    displayResult.value = displayResultObj;
+  });
+
+  // 복사버튼 기능
+  const onCopyText = (index) => {
+    let textContent = summaryText.value[index].textContent.trim();
+
+    let count = 0;
+    textContent = textContent.replace(/\[/g, (match) => {
+      count++;
+      return count === 1 ? match : '\n\n[';
+    });
+    textContent = textContent.replaceAll('] T', ']\nT');
+    textContent = textContent.replaceAll(' OT', '\nOT');
+    copyText(textContent);
+  };
+
+  // 일정 스케줄 상세보기 모달 노출
+  const showScheduleDetail = (name) => {
+    schedule.show = true;
+    schedule.name = name;
   };
 </script>
 

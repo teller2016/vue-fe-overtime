@@ -1,3 +1,4 @@
+import calculateMM from './mm';
 class Project {
   constructor(name) {
     this.name = name;
@@ -36,6 +37,11 @@ class Project {
     return sum;
   }
 
+  getMM(type) {
+    const total = this.getSum(type);
+    return calculateMM(total);
+  }
+
   getT() {
     const sortedT = this.sortByKey(this.T);
     return Object.values(sortedT);
@@ -59,7 +65,7 @@ class Project {
   }
 }
 
-const filterWeekAllExcel = (data, quitTime, name = '') => {
+const filterWeekAllExcel = (data, name = '') => {
   const result = {};
   const daySet = new Set();
 
