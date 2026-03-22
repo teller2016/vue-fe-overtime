@@ -1,5 +1,6 @@
 import { ref, computed } from 'vue';
 import mm from '@/composables/mm';
+import { copyText } from '@/composables/copyText';
 
 const personalWeekComposable = () => {
   // 불러온 엑셀 데이터
@@ -111,15 +112,20 @@ const personalWeekComposable = () => {
 
     itemsWithTOT.forEach((item) => {
       if (!summary[item.project]) {
-        summary[item.project] = { T: 0, OT: 0, schedules: new Set() };
+        summary[item.project] = { T: 0, OT: 0, schedules: new Set(), TSchedules: new Set(), OTSchedules: new Set() };
       }
       summary[item.project].T += item.T;
       summary[item.project].OT += item.OT;
 
-      // 일정 상세 내용 추가 (중복 제거를 위해 Set 사용)
-      const detail = extractScheduleDetail(item.scheduleName);
+      // 일정 상세 내용 추가
+      const rawDetail = item.scheduleName ? item.scheduleName.trim() : '';
+      const detail = item.scheduleName ? item.scheduleName.replace(/\[[^\]]+\]\s*/, '').trim() : '';
+      if (rawDetail) {
+        summary[item.project].schedules.add(rawDetail);
+      }
       if (detail) {
-        summary[item.project].schedules.add(detail);
+        if (item.T > 0) summary[item.project].TSchedules.add(detail);
+        if (item.OT > 0) summary[item.project].OTSchedules.add(detail);
       }
     });
 
@@ -130,6 +136,8 @@ const personalWeekComposable = () => {
       summary[project].TMM = mm(summary[project].T);
       summary[project].OTMM = mm(summary[project].OT);
       summary[project].schedules = Array.from(summary[project].schedules);
+      summary[project].TSchedules = Array.from(summary[project].TSchedules);
+      summary[project].OTSchedules = Array.from(summary[project].OTSchedules);
     });
 
     return summary;
@@ -161,11 +169,18 @@ const personalWeekComposable = () => {
     console.log(projectSummary.value);
   };
 
+  // 일정 복사
+  const copyScheduleList = (projectName, scheduleList) => {
+    const text = `[${projectName}]\n${scheduleList.join('\n')}`;
+    copyText(text);
+  };
+
   return {
     excelData,
     getExcelData,
     projectSummary,
     totalSummary,
+    copyScheduleList,
   };
 };
 
