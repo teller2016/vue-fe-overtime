@@ -121,7 +121,10 @@
 
           <!-- T -->
           <dl class="schedule__box" v-if="scheduleData.T.length">
-            <dt class="schedule__type">T</dt>
+            <dt class="schedule__type">
+              T
+              <button class="schedule__copyBtn" @click="copyScheduleList(projectName, scheduleData.T)">복사</button>
+            </dt>
             <dd>[{{ projectName }}]</dd>
             <dd class="schedule__detail" v-for="(TSchedule, index) in scheduleData.T" :key="index">
               {{ TSchedule }}
@@ -130,7 +133,10 @@
 
           <!-- OT -->
           <dl class="schedule__box" v-if="scheduleData.OT.length">
-            <dt class="schedule__type">OT</dt>
+            <dt class="schedule__type">
+              OT
+              <button class="schedule__copyBtn" @click="copyScheduleList(projectName, scheduleData.OT)">복사</button>
+            </dt>
             <dd>[{{ projectName }}]</dd>
             <dd class="schedule__detail" v-for="(OTSchedule, index) in scheduleData.OT" :key="index">
               {{ OTSchedule }}
@@ -302,6 +308,12 @@
     textContent = textContent.replaceAll('] T', ']\nT');
     textContent = textContent.replaceAll(' OT', '\nOT');
     copyText(textContent);
+  };
+
+  // dl 내 dd 내용 복사
+  const copyScheduleList = (projectName, scheduleList) => {
+    const text = `[${projectName}]\n${scheduleList.join('\n')}`;
+    copyText(text);
   };
 
   // 일정 스케줄 상세보기 모달 노출
@@ -492,8 +504,24 @@
         }
 
         &__type {
+          display: flex;
+          align-items: center;
+          gap: 8px;
           font-weight: 600;
           font-size: 20px;
+        }
+
+        &__copyBtn {
+          padding: 2px 8px;
+          border: 1px solid #ccc;
+          border-radius: 4px;
+          background: #fff;
+          font-size: 12px;
+          cursor: pointer;
+
+          &:hover {
+            background: #f0f0f0;
+          }
         }
 
         &__detail {
