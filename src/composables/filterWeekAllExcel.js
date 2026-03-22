@@ -61,7 +61,8 @@ class Project {
   getScheduleList(type) {
     let duplicateList = type == 'T' ? this.TScheduleList : this.OTScheduleList;
 
-    return [...new Set(duplicateList)];
+    // [프로젝트명] 접두사 제거 후 중복 제거
+    return [...new Set(duplicateList)].map((detail) => detail.replace(/\[.*?\]\s*/, ''));
   }
 }
 

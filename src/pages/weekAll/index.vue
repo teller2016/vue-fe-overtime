@@ -122,6 +122,7 @@
           <!-- T -->
           <dl class="schedule__box" v-if="scheduleData.T.length">
             <dt class="schedule__type">T</dt>
+            <dd>[{{ projectName }}]</dd>
             <dd class="schedule__detail" v-for="(TSchedule, index) in scheduleData.T" :key="index">
               {{ TSchedule }}
             </dd>
@@ -130,6 +131,7 @@
           <!-- OT -->
           <dl class="schedule__box" v-if="scheduleData.OT.length">
             <dt class="schedule__type">OT</dt>
+            <dd>[{{ projectName }}]</dd>
             <dd class="schedule__detail" v-for="(OTSchedule, index) in scheduleData.OT" :key="index">
               {{ OTSchedule }}
             </dd>
