@@ -1,17 +1,42 @@
-$gray50: #f8f8f8;
-$gray100: #e8e8e8;
-$gray600: #999;
-$gray800: #666;
+/* 다크 테마 기본 색상 - 웜 뉴트럴 */
+$dark-bg: #18181b;
+$dark-surface: #27272a;
+$dark-card: rgba(255, 255, 255, 0.03);
+$dark-card-hover: rgba(255, 255, 255, 0.06);
+$dark-border: rgba(255, 255, 255, 0.07);
+$dark-text: #d4d4d8;
+$dark-text-muted: #a1a1aa;
+$dark-text-dim: #71717a;
 
-$black: black;
-$red: red;
+/* 포인트 컬러 - 웜 뉴트럴 */
+$accent-primary: #d4a574;
+$accent-primary-light: #e2c08d;
+$accent-primary-dim: rgba(212, 165, 116, 0.12);
+$accent-secondary: #a3a3a3;
+$accent-warm: #e2c08d;
+$accent-warm-dim: rgba(226, 192, 141, 0.12);
+$accent-rose: #e57373;
+$accent-rose-dim: rgba(229, 115, 115, 0.1);
+$accent-green: #81c784;
+$accent-green-dim: rgba(129, 199, 132, 0.12);
+$accent-amber: #dcc07a;
+$accent-amber-dim: rgba(220, 192, 122, 0.12);
 
-$pFont: #324b4a;
-$pGreen: #c6dbda;
-$pRed: #fee1e8;
-$pOrange: #fed7c3;
-$pYellow: #f6eac2;
-$pPurple: #ecd5e3;
+/* 기존 호환 변수 */
+$gray50: #27272a;
+$gray100: rgba(255, 255, 255, 0.07);
+$gray600: #71717a;
+$gray800: #a1a1aa;
+
+$black: $dark-text;
+$red: $accent-rose;
+
+$pFont: $dark-text;
+$pGreen: $accent-primary;
+$pRed: $accent-rose;
+$pOrange: $accent-amber;
+$pYellow: #dcc07a;
+$pPurple: rgba($accent-primary, 0.12);
 
 $inputHeight: 40px;
 $inputPadding: 8px;

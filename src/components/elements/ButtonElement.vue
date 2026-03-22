@@ -40,13 +40,15 @@ export default {
 .sb {
   &__button {
     padding: 0 16px;
-    border: 1px solid black;
-    border-radius: 4px;
+    border: 1px solid $dark-border;
+    border-radius: 6px;
     white-space: nowrap;
+    color: $dark-text;
+    transition: all 0.2s;
 
     &.btn-xxs {
-      padding: 0 4px;
-      height: 20px;
+      padding: 0 8px;
+      height: 24px;
       font-size: 12px;
     }
     &.btn-s {
@@ -70,24 +72,26 @@ export default {
     }
 
     &.btn-black-line {
-      border-color: black;
+      border-color: $dark-border;
+      background: rgba(255, 255, 255, 0.03);
       &:hover {
-        background: $gray50;
+        background: rgba(255, 255, 255, 0.07);
+        border-color: rgba(255, 255, 255, 0.12);
       }
     }
     &.btn-orange-line {
-      color: rgb(255, 166, 0);
-      border-color: orange;
+      color: $accent-amber;
+      border-color: rgba($accent-amber, 0.25);
       &:hover {
-        background: rgba(255, 166, 0, 0.1);
+        background: $accent-amber-dim;
       }
     }
 
     &.btn-red-line {
-      color: rgb(255, 0, 0);
-      border-color: rgb(255, 0, 0);
+      color: $accent-rose;
+      border-color: rgba($accent-rose, 0.25);
       &:hover {
-        background: rgba(255, 0, 0, 0.1);
+        background: $accent-rose-dim;
       }
     }
   }

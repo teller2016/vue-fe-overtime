@@ -19,41 +19,61 @@ export const weekAllComposable = () => {
   // 이름별 퇴근시간 (이름: 퇴근시간)
   const workEndTimeByName = ref({});
 
+  // 다크 테마 공통 색상
+  const darkTextColor = '#a1a1aa';
+  const darkGridColor = 'rgba(255, 255, 255, 0.05)';
+
   // 바차트 옵션
   const barChartOptions = ref({
     responsive: true,
+    color: darkTextColor,
     scales: {
+      x: {
+        ticks: { color: darkTextColor },
+        grid: { color: darkGridColor },
+      },
       y: {
         stacked: true,
+        ticks: { color: darkTextColor },
+        grid: { color: darkGridColor },
       },
     },
     plugins: {
       title: {
         display: true,
         text: '요일별 T/OT',
+        color: '#d4d4d8',
         font: {
-          size: 20,
+          size: 18,
         },
         padding: {
           bottom: 5,
         },
+      },
+      legend: {
+        labels: { color: darkTextColor },
       },
     },
   });
 
   // 도넛차트 옵션
   const roundChartOptions = ref({
-    cutoutPercentage: 85, // 차트의 굵기
+    cutoutPercentage: 85,
+    color: darkTextColor,
     plugins: {
       title: {
         display: true,
         text: '전체 T/OT 합',
+        color: '#d4d4d8',
         font: {
-          size: 20,
+          size: 18,
         },
         padding: {
           bottom: 5,
         },
+      },
+      legend: {
+        labels: { color: darkTextColor },
       },
     },
   });

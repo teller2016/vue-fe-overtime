@@ -1,205 +1,417 @@
-.sb {
-  &__summaryTable {
-    width: calc(100% - 20px);
-    margin-top: 16px;
-  }
-  .error {
-    $errorColor: #ed4555;
-    color: $errorColor;
-    position: relative;
+.week-all {
+  max-width: 1360px;
+  margin: 0 auto;
+  padding: 0 16px 80px;
 
-    &:before {
-      content: '*T 확인 필요';
-      position: absolute;
-      top: 0;
-      left: 0;
-      color: $errorColor;
-      font-size: 12px;
-      white-space: nowrap;
-    }
+  /* 헤더 */
+  &__header {
+    margin-bottom: 20px;
   }
 
-  &__container {
-    width: 1280px;
-    margin: 0 auto;
+  &__title {
+    font-size: 20px;
+    font-weight: 700;
+    color: $accent-primary-light;
   }
 
-  &__time {
-    display: flex;
-    align-items: center;
-    &:not(:first-of-type) {
-      margin-top: 12px;
-    }
-    .time {
+  &__subtitle {
+    margin-top: 4px;
+    font-size: 12px;
+    color: $dark-text-dim;
+  }
+
+  /* 업로드 */
+  &__upload {
+    margin-bottom: 36px;
+
+    .upload {
+      &__card {
+        padding: 24px;
+        background: $dark-card;
+        border: 1px solid $dark-border;
+        border-radius: 16px;
+      }
+
+      &__info {
+        margin-bottom: 16px;
+      }
+
       &__title {
-        width: 100px;
-        flex-shrink: 0;
-        font-size: 20px;
-        cursor: pointer;
-        &:hover {
-          text-decoration: underline;
-        }
-        label {
-          cursor: pointer;
-        }
-
-        &.disabled {
-          pointer-events: none;
-          input {
-            display: none;
-          }
-        }
-      }
-
-      &__data {
-        width: 100%;
-        font-size: 0;
-      }
-    }
-  }
-
-  &__result {
-    margin-top: 20px;
-
-    .result {
-      &__item {
-        border: 3px solid $pGreen;
-        border-radius: 8px;
-        &:not(:first-of-type) {
-          margin-top: 40px;
-        }
-      }
-
-      &__name {
-        display: block;
-        margin-bottom: 8px;
-        padding: 8px;
-        border-bottom: 3px solid $pGreen;
-        font-weight: 700;
-        font-size: 30px;
-      }
-
-      &__content {
-        display: flex;
-        justify-content: space-between;
-        gap: 12px;
-      }
-
-      &__chart {
-        display: inline-block;
-        flex-shrink: 0;
-        margin-top: 8px;
-        height: 350px;
-
-        &--bar {
-          width: 700px;
-        }
-      }
-
-      &__summary {
-        width: 200px;
-        .summary {
-          &__box {
-            border: 1px solid $pRed;
-            background: $pPurple;
-            border-radius: 8px;
-            padding: 8px;
-
-            &:not(:first-of-type) {
-              margin-top: 8px;
-            }
-          }
-
-          &__header {
-            position: relative;
-            margin-bottom: 5px;
-            font-weight: 700;
-            font-size: 20px;
-          }
-
-          &__list {
-            text-align: left;
-
-            &:not(:first-of-type) {
-              margin-top: 8px;
-            }
-          }
-
-          &__name {
-            font-weight: 700;
-            font-size: 18px;
-          }
-
-          &__error {
-            color: $red;
-            font-size: 12px;
-            margin-bottom: 6px;
-          }
-
-          &__data {
-            font-size: 18px;
-          }
-
-          &__copy {
-            position: absolute;
-            right: 12px;
-            top: 4px;
-          }
-        }
-      }
-    }
-  }
-
-  &__schedule {
-    .schedule {
-      &__content {
-      }
-
-      &__item {
-        &:not(:first-of-type) {
-          margin-top: 30px;
-        }
-      }
-
-      &__projectName {
-        margin-bottom: 8px;
-        color: orange;
-        font-size: 24px;
-      }
-
-      &__box {
-        padding: 12px;
-        border-radius: 4px;
-        box-shadow: 2px 4px 12px 1px rgba(0, 0, 0, 0.1);
-
-        &:not(:first-of-type) {
-          margin-top: 10px;
-        }
-      }
-
-      &__type {
         display: flex;
         align-items: center;
-        gap: 8px;
+        gap: 10px;
+        font-size: 18px;
         font-weight: 600;
-        font-size: 20px;
+        color: $dark-text;
       }
 
-      &__copyBtn {
-        padding: 2px 8px;
-        border: 1px solid #ccc;
-        border-radius: 4px;
-        background: #fff;
-        font-size: 12px;
-        cursor: pointer;
+      &__desc {
+        margin-top: 6px;
+        font-size: 13px;
+        color: $dark-text-muted;
 
-        &:hover {
-          background: #f0f0f0;
+        em {
+          color: $accent-primary;
+          font-weight: 500;
         }
       }
 
-      &__detail {
+      &__guide-text {
+        font-size: 13px;
+        color: $dark-text;
+
+        em {
+          color: $accent-primary;
+          font-weight: 500;
+        }
       }
+
+      &__guide-img {
+        margin-top: 8px;
+      }
+    }
+  }
+
+  /* 테이블 섹션 */
+  &__table-section {
+    margin-bottom: 40px;
+
+    .section__title {
+      margin-bottom: 12px;
+      font-size: 16px;
+      font-weight: 600;
+      color: $dark-text-muted;
+    }
+
+    .table__wrapper {
+      overflow-x: auto;
+      border-radius: 12px;
+      border: 1px solid $dark-border;
+    }
+  }
+
+  &__table {
+    width: 100%;
+    border-collapse: collapse;
+    border-spacing: 0;
+    border-radius: 0;
+    border: none;
+    background: transparent;
+
+    thead tr {
+      background: rgba($accent-primary, 0.06) !important;
+    }
+
+    th {
+      padding: 12px 14px;
+      font-size: 12px;
+      font-weight: 600;
+      color: $accent-primary;
+      letter-spacing: 0.02em;
+      white-space: nowrap;
+      border-bottom: 1px solid $dark-border;
+    }
+
+    tbody tr {
+      background: transparent !important;
+      transition: background 0.15s;
+
+      &:hover {
+        background: $dark-card-hover !important;
+      }
+
+      &:not(:last-child) td {
+        border-bottom: 1px solid $dark-border;
+      }
+    }
+
+    td {
+      padding: 10px 14px;
+      font-size: 13px;
+      color: $dark-text;
+      border-bottom: none;
+    }
+
+    .table {
+      &__th--name { width: 90px; }
+      &__th--action { width: 90px; }
+
+      &__td--name {
+        font-weight: 600;
+      }
+
+      &__td--error {
+        color: $accent-rose;
+
+        &::after {
+          content: '*T 확인';
+          display: inline-block;
+          margin-left: 6px;
+          padding: 1px 6px;
+          font-size: 10px;
+          font-weight: 500;
+          background: $accent-rose-dim;
+          color: $accent-rose;
+          border-radius: 4px;
+        }
+      }
+
+      &__td--action {
+        text-align: center;
+      }
+
+      &__btn {
+        padding: 5px 12px;
+        background: $accent-primary-dim;
+        border: 1px solid rgba($accent-primary, 0.2);
+        border-radius: 6px;
+        color: $accent-primary;
+        font-size: 12px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.15s;
+        white-space: nowrap;
+
+        &:hover {
+          background: rgba($accent-primary, 0.2);
+          border-color: rgba($accent-primary, 0.35);
+        }
+      }
+    }
+  }
+
+  /* 결과 섹션 */
+  &__results {
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+  }
+}
+
+/* 결과 카드 */
+.result-card {
+  background: $dark-card;
+  border: 1px solid $dark-border;
+  border-radius: 16px;
+  overflow: hidden;
+
+  &__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 24px;
+    border-bottom: 1px solid $dark-border;
+    background: rgba($accent-primary, 0.04);
+  }
+
+  &__name {
+    font-size: 20px;
+    font-weight: 700;
+    color: $dark-text;
+  }
+
+  &__badge {
+    padding: 5px 14px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    background: $accent-green-dim;
+    color: $accent-green;
+
+    &--warn {
+      background: $accent-rose-dim;
+      color: $accent-rose;
+    }
+  }
+
+  &__body {
+    padding: 20px 24px;
+    display: flex;
+    gap: 20px;
+  }
+
+  &__charts {
+    flex: 1;
+    display: flex;
+    gap: 16px;
+    min-width: 0;
+
+    .chart-box {
+      flex-shrink: 0;
+
+      &--bar {
+        width: 660px;
+        height: 340px;
+      }
+
+      &--round {
+        height: 340px;
+      }
+    }
+  }
+
+  &__summary {
+    width: 210px;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+}
+
+/* 요약 카드 */
+.summary-card {
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid $dark-border;
+  background: $dark-surface;
+
+  &--total {
+    border-color: rgba($accent-primary, 0.15);
+    background: rgba($accent-primary, 0.04);
+  }
+
+  &__head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 14px;
+    border-bottom: 1px solid $dark-border;
+
+    h4 {
+      font-size: 14px;
+      font-weight: 600;
+      color: $dark-text;
+    }
+  }
+
+  &__copy-btn {
+    padding: 3px 8px;
+    background: $accent-primary-dim;
+    border: 1px solid rgba($accent-primary, 0.2);
+    border-radius: 4px;
+    color: $accent-primary;
+    font-size: 11px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.15s;
+
+    &:hover {
+      background: rgba($accent-primary, 0.2);
+    }
+  }
+
+  &__body {
+    padding: 12px 14px;
+  }
+}
+
+/* 요약 항목 */
+.summary-item {
+  &:not(:first-of-type) {
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px solid $dark-border;
+  }
+
+  &__name {
+    font-weight: 600;
+    font-size: 13px;
+    color: $accent-primary;
+    margin-bottom: 2px;
+  }
+
+  &__data {
+    font-size: 13px;
+    color: $dark-text-muted;
+    line-height: 1.5;
+  }
+
+  &__error {
+    color: $accent-rose;
+    font-size: 11px;
+    margin-bottom: 6px;
+    padding: 6px 8px;
+    background: $accent-rose-dim;
+    border-radius: 6px;
+    line-height: 1.4;
+  }
+}
+
+/* 모달 */
+.schedule-modal {
+  &__project {
+    &:not(:first-of-type) {
+      margin-top: 24px;
+      padding-top: 24px;
+      border-top: 1px solid $dark-border;
+    }
+  }
+
+  &__project-name {
+    margin-bottom: 12px;
+    font-size: 18px;
+    font-weight: 700;
+    color: $accent-primary-light;
+  }
+
+  &__box {
+    padding: 14px;
+    border-radius: 10px;
+    background: $dark-card;
+    border: 1px solid $dark-border;
+
+    &:not(:first-of-type) {
+      margin-top: 10px;
+    }
+  }
+
+  &__type {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 700;
+    font-size: 15px;
+    margin-bottom: 8px;
+
+    &--t {
+      color: $accent-green;
+    }
+
+    &--ot {
+      color: $accent-amber;
+    }
+  }
+
+  &__copy-btn {
+    padding: 2px 8px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid $dark-border;
+    border-radius: 4px;
+    color: $dark-text-muted;
+    font-size: 11px;
+    margin-left: auto;
+    cursor: pointer;
+    transition: all 0.15s;
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.08);
+      color: $dark-text;
+    }
+  }
+
+  &__detail {
+    padding: 3px 0 3px 16px;
+    font-size: 13px;
+    color: $dark-text-muted;
+    line-height: 1.5;
+    position: relative;
+
+    &::before {
+      content: '›';
+      position: absolute;
+      left: 4px;
+      color: $dark-text-dim;
     }
   }
 }

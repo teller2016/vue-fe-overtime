@@ -370,7 +370,7 @@ export default {
 .sb {
   &__tempLink {
     display: inline-block;
-    color: red;
+    color: $accent-rose;
     margin-bottom: 14px;
     font-size: 20px;
     &:hover {
@@ -414,7 +414,8 @@ export default {
           font-weight: 600;
           font-size: 24px;
           padding-bottom: 12px;
-          border-bottom: 1px solid black;
+          border-bottom: 1px solid $dark-border;
+          color: $dark-text;
         }
 
         &__table {
@@ -425,10 +426,11 @@ export default {
           td {
             padding: 4px;
             font-size: 20px;
+            color: $dark-text;
           }
 
           &:not(:first-of-type) {
-            border-top: 1px solid $gray100;
+            border-top: 1px solid $dark-border;
           }
         }
       }
@@ -443,6 +445,7 @@ export default {
         margin-bottom: 12px;
         font-weight: 700;
         font-size: 36px;
+        color: $dark-text;
       }
 
       &__btn {

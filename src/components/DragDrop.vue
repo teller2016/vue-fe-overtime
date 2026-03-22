@@ -29,7 +29,6 @@ export default {
     const file = ref("");
     const labelText = ref("드래그하거나 클릭해서 업로드");
 
-    // 엑셀 데이터 로드
     const loadFileData = () => {
       const fileValue = file.value[0];
       const reader = new FileReader();
@@ -83,7 +82,7 @@ export default {
 .sb {
   &__dragDrop {
     width: 100%;
-    height: 180px;
+    height: 160px;
 
     .dragDrop {
       &__label {
@@ -95,11 +94,24 @@ export default {
         width: 100%;
         height: 100%;
         margin: 0;
-        border-radius: 8px;
-        background: $gray100;
+        border-radius: 12px;
+        border: 2px dashed $dark-border;
+        background: rgba(255, 255, 255, 0.015);
+        color: $dark-text-muted;
+        font-size: 14px;
         cursor: pointer;
+        transition: all 0.2s;
+
+        &:hover {
+          border-color: rgba($accent-primary, 0.3);
+          background: rgba($accent-primary, 0.04);
+          color: $dark-text;
+        }
 
         &.itemdrop {
+          border-color: $accent-primary;
+          background: rgba($accent-primary, 0.08);
+
           &:after {
             content: "";
             position: absolute;
@@ -108,15 +120,16 @@ export default {
             z-index: 1;
             width: 100%;
             height: 100%;
-            background: rgba($color: white, $alpha: 0.7)
+            background: rgba($accent-primary, 0.1)
               url("../assets/images/file.png") no-repeat center center / 50px
               auto;
           }
         }
 
         &.active {
-          border: 2px solid black;
-          background: #ddd;
+          border: 2px solid $accent-primary;
+          background: $accent-primary-dim;
+          color: $accent-primary;
         }
       }
 

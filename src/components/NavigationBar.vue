@@ -29,40 +29,45 @@
       align-items: center;
       max-width: 1920px;
       margin: 0 auto 24px;
-      padding: 8px;
-      background: $pGreen;
-      border-radius: 16px;
+      padding: 12px 20px;
+      background: $dark-surface;
+      border: 1px solid $dark-border;
+      border-radius: 12px;
 
       .nav {
         &__title {
           display: inline-block;
           font-weight: 700;
-          font-size: 30px;
+          font-size: 24px;
+          color: $accent-primary-light;
         }
 
         &__list {
           display: flex;
           align-items: center;
-          gap: 12px;
+          gap: 8px;
           margin-left: 30px;
         }
 
-        &__item {
-        }
-
         &__link {
-          color: $pFont;
+          display: inline-block;
+          padding: 6px 14px;
+          border-radius: 8px;
+          color: $dark-text-muted;
           font-weight: 400;
-          font-size: 18px;
+          font-size: 15px;
           cursor: pointer;
+          transition: all 0.2s;
+
           &:hover {
-            text-decoration: underline;
+            color: $dark-text;
+            background: rgba(255, 255, 255, 0.04);
           }
 
           &.active {
-            text-decoration: underline;
-            color: $pFont;
-            font-weight: 700;
+            color: $accent-primary;
+            font-weight: 600;
+            background: $accent-primary-dim;
           }
         }
       }

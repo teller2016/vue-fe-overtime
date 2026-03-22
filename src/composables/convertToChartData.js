@@ -56,15 +56,15 @@ const getDayList = (data) => {
 
 const getColor = (index = 0, type = 0) => {
   const color = [
-    ['#ED5565', '#DA4453'],
-    ['#FFCE54', '#F6BB42'],
-    ['#48CFAD', '#37BC9B'],
-    ['#5D9CEC', '#4A89DC'],
-    ['#EC87C0', '#D770AD'],
-    ['#FC6E51', '#E9573F'],
-    ['#A0D468', '#8CC152'],
-    ['#4FC1E9', '#3BAFDA'],
-    ['#AC92EC', '#967ADC'],
+    ['#d4a574', '#c4956a'], // 샌드
+    ['#81c784', '#6db870'], // 세이지
+    ['#e2c08d', '#d4b07d'], // 골드
+    ['#e57373', '#d46363'], // 소프트 레드
+    ['#a1a1aa', '#8e8e96'], // 뉴트럴
+    ['#dcc07a', '#c8ac6a'], // 앰버
+    ['#b0937a', '#9e836c'], // 코코아
+    ['#8fbc8f', '#7daa7d'], // 다크 세이지
+    ['#c9a87c', '#b8976c'], // 카멜
   ];
   return color[index % color.length][type % 2];
 };

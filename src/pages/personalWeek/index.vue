@@ -86,51 +86,56 @@
     &__result {
       margin-top: 30px;
       padding: 20px;
-      border: 2px solid $pGreen;
-      border-radius: 8px;
+      border: 1px solid rgba($accent-primary, 0.15);
+      border-radius: 12px;
+      background: $dark-card;
 
       .result {
         &__title {
           margin-bottom: 16px;
           font-size: 24px;
           font-weight: 700;
-          color: $pGreen;
+          color: $accent-primary;
         }
 
         &__table {
           width: 100%;
           border-collapse: collapse;
+          border-radius: 0;
+          border: none;
+          background: transparent;
 
           th,
           td {
             padding: 12px 16px;
             text-align: center;
-            border: 1px solid #ddd;
+            border: 1px solid $dark-border;
           }
 
           th {
-            background: $pGreen;
-            color: white;
+            background: rgba($accent-primary, 0.06);
+            color: $accent-primary;
             font-weight: 600;
           }
 
           td {
-            background: #fff;
+            background: transparent;
+            color: $dark-text;
           }
 
           tbody tr:hover {
-            background: #f5f5f5;
+            background: $dark-card-hover;
           }
         }
 
         &__total {
           td {
-            background: #f0f8f0 !important;
+            background: rgba($accent-primary, 0.06) !important;
             font-weight: 700;
-            color: $black;
+            color: $dark-text;
 
             &.warn {
-              color: $red;
+              color: $accent-rose;
             }
           }
         }
@@ -143,10 +148,10 @@
             display: block;
             margin: 2px 4px;
             padding: 4px 8px;
-            background: #e8f5e9;
+            background: $accent-primary-dim;
             border-radius: 4px;
             font-size: 13px;
-            color: #2e7d32;
+            color: $accent-primary;
           }
         }
       }

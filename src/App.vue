@@ -40,13 +40,19 @@ export default {
 <style lang="scss">
 @import url("https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&family=Noto+Sans:wght@400;500;700&display=swap");
 
+html {
+  background: $dark-bg;
+}
+
 #app {
   font-family: "Noto Sans", "Noto Sans KR", Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
-  margin-top: 20px;
+  color: $dark-text;
+  min-height: 100vh;
+  background: $dark-bg;
+  padding-top: 20px;
 }
 
 .sb {
@@ -55,9 +61,9 @@ export default {
   &__container {
     .container {
       &__box {
-        // border: 1px solid black;
         border-radius: 16px;
-        box-shadow: 6px 6px 16px 3px rgba(0, 0, 0, 0.1);
+        border: 1px solid $dark-border;
+        background: $dark-card;
       }
     }
   }
@@ -69,12 +75,12 @@ export default {
 
     &__guide {
       margin-bottom: 8px;
-      color: black;
+      color: $dark-text;
       font-size: 13px;
 
       em {
         font-weight: 700;
-        color: $red;
+        color: $accent-primary;
       }
     }
   }
@@ -84,7 +90,7 @@ export default {
     padding: 16px;
 
     &:not(:first-of-type) {
-      border-left: 1px solid #e9e9e9;
+      border-left: 1px solid $dark-border;
     }
     .option {
       &__header {
@@ -92,6 +98,7 @@ export default {
         font-weight: 700;
         font-size: 24px;
         text-align: left;
+        color: $dark-text;
       }
 
       &__content {
@@ -101,21 +108,18 @@ export default {
 
   &__guide {
     &__text {
-      color: black;
+      color: $dark-text;
       font-weight: bold;
       font-size: 16px;
 
       em {
-        color: red;
+        color: $accent-primary;
       }
     }
 
     &__img {
       display: block;
       margin-top: 8px;
-
-      img {
-      }
     }
   }
 }
