@@ -10,14 +10,22 @@ const personalWeekComposable = () => {
   const parseTimeToHours = (timeStr) => {
     if (!timeStr) return 0;
 
-    const [start, end] = timeStr.split('-');
-    if (!start || !end) return 0;
+    // 공백 제거 후 '-'로 분리 ("09:30 - 18:00" 대응)
+    const parts = timeStr.replace(/\s/g, '').split('-');
+    if (parts.length < 2 || !parts[0] || !parts[1]) return 0;
 
-    const [startHour, startMin] = start.split(':').map(Number);
-    const [endHour, endMin] = end.split(':').map(Number);
+    const [startHour, startMin] = parts[0].split(':').map(Number);
+    const [endHour, endMin] = parts[1].split(':').map(Number);
+
+    if (isNaN(startHour) || isNaN(startMin) || isNaN(endHour) || isNaN(endMin)) return 0;
 
     const startTotalMin = startHour * 60 + startMin;
-    const endTotalMin = endHour * 60 + endMin;
+    let endTotalMin = endHour * 60 + endMin;
+
+    // 자정 넘기는 경우 (예: 22:00-01:00)
+    if (endTotalMin <= startTotalMin) {
+      endTotalMin += 24 * 60;
+    }
 
     return (endTotalMin - startTotalMin) / 60;
   };
@@ -52,7 +60,7 @@ const personalWeekComposable = () => {
       dateHours[date] += hours;
     });
 
-    // 2단계: 일자별로 항목을 시간순 정렬하고 T/OT 분리
+    // 2단계: 일자별로 항목을 그룹화
     const dateItems = {};
     data.forEach((item) => {
       const date = item.일자;
@@ -60,6 +68,15 @@ const personalWeekComposable = () => {
         dateItems[date] = [];
       }
       dateItems[date].push(item);
+    });
+
+    // 시간순 정렬 (시작시간 기준)
+    Object.keys(dateItems).forEach((date) => {
+      dateItems[date].sort((a, b) => {
+        const aStart = a.시간 ? a.시간.replace(/\s/g, '').split('-')[0] : '99:99';
+        const bStart = b.시간 ? b.시간.replace(/\s/g, '').split('-')[0] : '99:99';
+        return aStart.localeCompare(bStart);
+      });
     });
 
     // 3단계: 일자별로 누적 시간 계산하여 T/OT 분리
