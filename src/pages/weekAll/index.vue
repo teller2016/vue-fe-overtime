@@ -6,6 +6,25 @@
       <p class="week-all__subtitle">팀원별 T/OT 현황을 한눈에 확인하세요</p>
     </header>
 
+    <!-- 익스텐션 안내 (접이식) -->
+    <details class="ext-promo">
+      <summary class="ext-promo__summary">
+        <span class="ext-promo__badge">NEW</span>
+        <span class="ext-promo__lead"><strong>익스텐션</strong>으로 더 편하게 — 엑셀 업로드 없이 그룹웨어에서 바로 분석</span>
+        <span class="ext-promo__more">자세히 ▾</span>
+      </summary>
+      <div class="ext-promo__body">
+        <img class="ext-promo__img" src="../../assets/images/extensionDashboard.png" alt="익스텐션 대시보드 화면" />
+        <div class="ext-promo__steps">
+          <p><strong>1. 설치</strong> · GitHub에서 받아 <code>chrome://extensions</code> → 개발자모드 → 폴더 로드</p>
+          <p><strong>2. 사용</strong> · <em>[개인별 주간]</em> 화면 우측 하단 <em>주간보고 분석</em> 클릭</p>
+          <a class="ext-promo__link" href="https://github.com/teller2016/fe-schedule-extension" target="_blank" rel="noopener">
+            GitHub에서 받기 →
+          </a>
+        </div>
+      </div>
+    </details>
+
     <!-- 일지 등록 카드 -->
     <section class="week-all__upload">
       <div class="upload__card">

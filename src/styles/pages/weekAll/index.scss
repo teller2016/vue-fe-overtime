@@ -415,3 +415,109 @@
     }
   }
 }
+
+/* 익스텐션 안내 배너 */
+.ext-promo {
+  margin: 0 0 24px;
+  padding: 14px 20px;
+  background: $dark-surface;
+  border: 1px solid $dark-border;
+  border-radius: 12px;
+  text-align: left;
+
+  &__summary {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    list-style: none;
+    font-size: 14.5px;
+    color: $dark-text;
+
+    &::-webkit-details-marker {
+      display: none;
+    }
+  }
+
+  &__badge {
+    flex: 0 0 auto;
+    background: $accent-green-dim;
+    color: $accent-green;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 2px 9px;
+    border-radius: 999px;
+  }
+
+  &__lead {
+    strong {
+      color: $accent-primary;
+      font-weight: 700;
+    }
+  }
+
+  &__more {
+    margin-left: auto;
+    color: $dark-text-dim;
+    font-size: 13px;
+  }
+
+  &[open] &__more {
+    display: none;
+  }
+
+  &__body {
+    margin-top: 16px;
+  }
+
+  &__img {
+    width: 100%;
+    border-radius: 10px;
+    border: 1px solid $dark-border;
+  }
+
+  &__steps {
+    margin-top: 16px;
+    font-size: 13.5px;
+    color: $dark-text;
+
+    p {
+      margin-bottom: 12px;
+      line-height: 1.6;
+    }
+
+    strong {
+      color: $accent-primary-light;
+    }
+
+    em {
+      color: $accent-primary;
+      font-style: normal;
+      font-weight: 600;
+    }
+  }
+
+  &__link {
+    display: inline-block;
+    margin-top: 4px;
+    padding: 8px 16px;
+    background: $accent-primary-dim;
+    color: $accent-primary;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 13.5px;
+    text-decoration: none;
+
+    &:hover {
+      background: rgba($accent-primary, 0.2);
+    }
+  }
+
+  code {
+    padding: 1px 6px;
+    border-radius: 4px;
+    background: rgba(255, 255, 255, 0.06);
+    color: $accent-warm;
+    font-size: 12px;
+  }
+}
